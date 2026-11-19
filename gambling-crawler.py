@@ -13,6 +13,7 @@ Ho tro:
 import sys
 import os
 import re
+import json
 import time
 import random
 import queue
@@ -22,6 +23,9 @@ from concurrent.futures import ThreadPoolExecutor
 
 import requests
 from bs4 import BeautifulSoup
+
+# Duong dan tep tu dien keywords.json (tu dong doc neu ton tai)
+KEYWORDS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "keywords.json")
 
 # Danh sach tien to thuong hieu ca do, nha cai, cong game
 BRAND_PREFIXES = [
@@ -78,6 +82,22 @@ GAMBLING_AND_SCAM_KEYWORDS = [
     "làm nhiệm vụ nhận hoa hồng", "giật đơn nhận tiền", "nạp tiền làm nhiệm vụ", "nhiệm vụ shopee",
     "hoàn tiền nhiệm vụ", "đầu tư sinh lời mỗi ngày", "sàn chứng khoán quốc tế ảo"
 ]
+
+# Nap tu keywords.json neu tep ton tai
+if os.path.exists(KEYWORDS_FILE):
+    try:
+        with open(KEYWORDS_FILE, "r", encoding="utf-8") as kf:
+            kdata = json.load(kf)
+            if "brand_prefixes" in kdata and kdata["brand_prefixes"]:
+                BRAND_PREFIXES = kdata["brand_prefixes"]
+            if "brand_numbers" in kdata and kdata["brand_numbers"]:
+                BRAND_NUMBERS = kdata["brand_numbers"]
+            if "search_queries" in kdata and kdata["search_queries"]:
+                HIGH_YIELD_SEARCH_QUERIES = kdata["search_queries"]
+            if "indicators" in kdata and kdata["indicators"]:
+                GAMBLING_AND_SCAM_KEYWORDS = kdata["indicators"]
+    except Exception:
+        pass
 
 # WHITELIST TUYET DOI - Khong bao gio danh dau cac domain nay
 WHITELIST_DOMAINS = {
