@@ -6,6 +6,7 @@ Ho tro:
 - Chay lien tuc (Continuous discovery loop)
 - Dao tim lien ket ngam (Recursive link harvesting tu cac trang da phat hien)
 - Nhan dien pattern ten mien co bac (Tieng Anh + 88, 77, 68, 79, 388, 789...)
+- Bo tu dien ca do / tai xiu / nha cai mo rong toan dien
 - Xoay vong Free Proxy tu dong
 - Xuat danh sach chan vao suspicious_domains.txt
 """
@@ -22,33 +23,61 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 from bs4 import BeautifulSoup
 
-# Danh sach tien to va so pho bien cua cac nha cai / cong game
+# Danh sach tien to thuong hieu ca do, nha cai, cong game pho bien nhat
 BRAND_PREFIXES = [
+    # Nha cai the thao / Casino
     "bet", "win", "club", "casino", "vip", "ku", "th", "sh", "fb", "fun",
-    "f8", "ok", "new", "jun", "hi", "bk", "w", "m", "789", "b52", "rik", "sun"
+    "f8", "ok", "new", "jun", "hi", "bk", "w", "m", "789", "b52", "rik", "sun",
+    "go", "iwin", "hit", "taixiu", "nohu", "top", "king", "soc", "vic", "rio",
+    "zowin", "macau", "sin", "de", "z", "ox", "five", "red", "sky", "ta",
+    "lucky", "da", "lode", "mu", "fc", "nbet", "bong", "sbo", "saba", "cmd",
+    "k9", "vg", "v8", "v9", "fa", "yo", "may", "gem", "bay", "boc"
 ]
-BRAND_NUMBERS = ["88", "77", "99", "68", "79", "388", "888", "999", "789", "52", "188"]
 
-# Pattern ten mien co bac dac trung (Tu tieng Anh + so 88, 77, 68, 79...)
+# Cac con so may man / nhan dien dac trung thuong gan sau thuong hieu
+BRAND_NUMBERS = [
+    "88", "77", "99", "68", "79", "388", "888", "999", "789", "52", "188",
+    "66", "365", "123", "247", "11", "22", "33", "86", "6868", "8888", "9999"
+]
+
+# Pattern ten mien co bac dac trung (Tu tieng Anh + cac con so 88, 77, 68, 79...)
 GAMBLING_DOMAIN_PATTERN = re.compile(
-    r"([a-z0-9\-]+(?:88|77|99|68|79|388|888|789|999|52|188)[a-z0-9\-]*\.[a-z]{2,})",
+    r"([a-z0-9\-]+(?:88|77|99|68|79|388|888|789|999|52|188|365|6868|8888)[a-z0-9\-]*\.[a-z]{2,})",
     re.IGNORECASE
 )
 
-# Danh sach tu khoa search engine mo rong
+# Danh sach chu de / tu khoa tim kiem mo rong tren Search Engine
 BASE_SEARCH_TERMS = [
-    "tài xỉu", "kèo nhà cái", "baccarat trực tuyến", "nhà cái uy tín",
-    "đá gà thomo", "game bài đổi thưởng", "lô đề online", "bắn cá nổ hũ",
-    "link vào", "đăng ký nhận 88k", "cá cược bóng đá", "sòng bạc online"
+    # Tai xiu & Game bai
+    "tài xỉu online", "tài xỉu md5 uy tín", "tải game tài xỉu đổi thưởng", "game bài đổi thưởng nạp rút 1-1",
+    "xóc đĩa trực tuyến", "bầu cua tôm cá online", "bắn cá nổ hũ đổi tiền thật", "quay hũ jackpot",
+    # Live Casino & Baccarat
+    "baccarat trực tuyến", "kéo baccarat về bờ", "nhóm hô baccarat tele", "sòng bạc casino trực tuyến",
+    "live baccarat tặng tiền", "roulette trực tuyến uy tín", "rồng hổ online",
+    # The thao & Keo nha cai
+    "kèo nhà cái hôm nay", "tỷ lệ kèo bóng đá trực tuyến", "kèo chấp châu á hôm nay", "kèo tài xỉu bóng đá",
+    "cá cược bóng đá euro world cup", "soi kèo ngoại hạng anh đêm nay", "kèo phạt góc running",
+    # Da ga & Lo de
+    "đá gà thomo trực tiếp hôm nay", "đá gà cpc3 trực tiếp", "trực tiếp đá gà cựa dao c1",
+    "lô đề online 1 ăn 99", "đánh số đề miền bắc siêu tốc", "soi cầu lô đề 3 miền vip",
+    # Khuyen mai & Link du phong
+    "link vào không bị chặn", "nhà cái tặng tiền trải nghiệm", "đăng ký nhận 88k miễn phí",
+    "tải app apk ios", "code tân thủ 100k", "nhà cái uy tín nhất việt nam"
 ]
 
-# Tu khoa nhan dien trong ma HTML
+# Bo tu khoa phan tich chuyen sau trong ma HTML
 GAMBLING_INDICATORS = [
-    "cá cược", "cá độ", "kèo nhà cái", "tài xỉu", "baccarat", "casino trực tuyến",
-    "đá gà thomo", "lô đề online", "bắn cá đổi thưởng", "nổ hũ", "game bài đổi thưởng",
-    "nạp rút 1-1", "khuyến mãi tân thủ", "tiền cược miễn phí", "đăng ký nhận 88k",
-    "link vào kubet", "link vào 789bet", "nhà cái uy tín", "cược xiên", "kèo châu á",
-    "sòng bạc", "đá gà cpc", "live casino", "soi kèo", "game tài xỉu"
+    # Tu khoa the loai
+    "cá cược", "cá độ", "kèo nhà cái", "tài xỉu", "tài xỉu md5", "baccarat", "casino trực tuyến",
+    "đá gà thomo", "đá gà cpc", "đá gà cựa dao", "lô đề online", "bắn cá đổi thưởng", "nổ hũ",
+    "game bài đổi thưởng", "xóc đĩa", "bầu cua", "rồng hổ", "sicbo", "roulette",
+    # Tu khoa giao dich & khuyen mai
+    "nạp rút 1-1", "khuyến mãi tân thủ", "tiền cược miễn phí", "đăng ký nhận 88k", "tặng code tân thủ",
+    "tiền cược trải nghiệm", "hoàn trả không giới hạn", "thưởng nạp đầu 100%", "rút tiền 30s",
+    # Tu khoa thuong hieu & link vao
+    "link vào kubet", "link vào 789bet", "link vào shbet", "nhà cái uy tín", "cược xiên", "kèo châu á",
+    "sòng bạc", "live casino", "soi kèo", "game tài xỉu", "sảnh sexy gaming", "sảnh evolution",
+    "đại lý cá cược", "tải app apk ios", "link vào không bị chặn"
 ]
 
 PROXY_SOURCES = [
@@ -194,7 +223,7 @@ class ContinuousGamblingCrawler:
 
         # Danh gia co phai trang ca do khong
         is_gambling = (score >= 2) or bool(domain_match and score >= 1) or any(
-            kw in title.lower() for kw in ["nhà cái", "cá cược", "tài xỉu", "casino", "baccarat"]
+            kw in title.lower() for kw in ["nhà cái", "cá cược", "tài xỉu", "casino", "baccarat", "xóc đĩa", "đá gà"]
         )
 
         if is_gambling:
@@ -221,7 +250,7 @@ class ContinuousGamblingCrawler:
                     link_dom = urlparse(link).netloc.lower()
                     if link_dom and link_dom not in self.seen_domains:
                         with self.lock:
-                            if len(self.target_queue) < 500:
+                            if len(self.target_queue) < 1000:
                                 self.target_queue.add(link)
 
     def generate_dynamic_query(self):
@@ -234,7 +263,10 @@ class ContinuousGamblingCrawler:
             f"nhà cái {brand}",
             f"{brand} casino trực tuyến",
             f"tải app {brand} tài xỉu",
-            f"đăng ký {brand} tặng tiền"
+            f"đăng ký {brand} nhận code",
+            f"soi kèo {brand}",
+            f"đá gà {brand} trực tiếp",
+            f"game bài {brand} đổi thưởng"
         ]
         return random.choice(variations)
 
