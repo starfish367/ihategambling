@@ -80,6 +80,13 @@ GAMBLING_INDICATORS = [
     "đại lý cá cược", "tải app apk ios", "link vào không bị chặn"
 ]
 
+# Danh sach domain uy tin can bo qua (tranh false positive)
+WHITELIST_DOMAINS = {
+    "google.com", "play.google.com", "apple.com", "apps.apple.com",
+    "bluestacks.com", "apkpure.com", "youtube.com", "facebook.com",
+    "github.com", "wikipedia.org", "x.com", "twitter.com", "tiktok.com"
+}
+
 PROXY_SOURCES = [
     "https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/http.txt",
     "https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt"
@@ -202,6 +209,10 @@ class ContinuousGamblingCrawler:
         parsed = urlparse(target_url)
         domain = parsed.netloc.lower()
         if not domain or domain in self.seen_domains:
+            return
+
+        # Bo qua cac domain lon nam trong whitelist
+        if any(domain == wl or domain.endswith("." + wl) for wl in WHITELIST_DOMAINS):
             return
 
         r = self.request_with_retry(target_url, timeout=6)
