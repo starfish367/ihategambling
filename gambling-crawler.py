@@ -2,20 +2,29 @@
 """
 gambling-crawler.py - He thong Crawler da luong chong co bac & lua dao cong nghe cao
 Nang cap kien truc:
-1. Bo cham diem rui ro da tin hieu (Thang 100 diem, nguong chan >= 70):
-   - Noi dung trang (40 diem): Title/Meta (15d), Body keywords (15d), APK/IPA download (10d).
-   - Hanh vi chuyen huong (25 diem): HTTP 301/302 Redirect chain & JavaScript/Meta refresh redirect.
-   - Cau truc ten mien (20 diem): Regex thuong hieu + so may man / nam (12d) & TLD gia re rui ro cao (8d).
-   - Dau hieu ha tang (15 diem): Chat widget CSKH / Telegram (7d), Cloudflare proxy (4d), Free/New SSL cert (4d).
-2. Chong Cloaking:
-   - Su dung Mobile User-Agent mac dinh (iOS Safari & Android Chrome) + Header ngon ngu tieng Viet vi-VN.
-3. Thu thap da kenh khong ngung nghi (Producer-Consumer):
-   - Sinh to hop ten mien theo quy luat (Brand + Number/Suffix + Risky TLD) va phan giai DNS tuc thi.
-   - Khai thac Certificate Transparency Logs (crt.sh).
-   - Harvester tim kiem Search Engine.
-   - Dao sau de quy (Harvesting link & redirect targets).
-4. Whitelist tuyet doi (Khong bao gio bat nham Google, Youtube, bao chi chinh thong).
-5. Zero-Emoji theo quy chuan he thong.
+1. Bang trong so cham diem chi tiet (Thang 100 diem):
+   - Nhom Noi dung & UI (40d):
+     * Tu khoa co bac mat do cao (>= 5 lan trong title, meta, h1-h3): +15d
+     * Cum tu giao dich tien that (nap rut 1:1, momo, giftcode tan thu): +15d
+     * Link tai ung dung ngoai luong (.apk, .ipa, iOS config): +10d
+   - Nhom Chuyen huong (25d):
+     * Chuyen huong tu dong (HTTP 301/302 hoac JS redirect sang domain khac): +15d
+     * Ky thuat che giau (Cloaking - chenh lech Mobile VN vs Desktop/ngoai): +10d
+   - Nhom Ten mien (20d):
+     * Thuong hieu hoac so dac trung (kubet, sunwin, go88, 789, hi88, jun88, tx, nohu, bet...): +12d
+     * Duoi ten mien (TLD) rui ro cao (.vip, .club, .win, .bet, .top, .xyz, .icu...): +8d
+   - Nhom Ha tang (15d):
+     * Chung chi SSL mien phi moi cap (< 30 ngay, Let's Encrypt / ZeroSSL): +8d
+     * Kenh ho tro nap rut truc tiep (Widget LiveChat hoac link t.me/): +7d
+2. Bo loc truoc (Pre-filter) va Co che tru diem xu ly duong tinh gia:
+   - Bo qua ten mien co quan nha nuoc (.gov.vn), giao duc (.edu.vn), logo xac thuc Bo Cong Thuong (online.gov.vn).
+   - Nhan dien bai bao tin tuc canh bao (-35d): > 800 tu, khong form dang ky, khong nut nap tien.
+   - Kiem tra kho ung dung chinh thong (-30d): Nut tai app tro ve play.google.com hoac apps.apple.com.
+   - Xac minh thong tin doanh nghiep hop phap (-25d): Ma so thue (MST) hop le, dia chi VN tai footer, khong redirect an.
+3. Thang danh gia phan loai:
+   - 70 - 100 diem: Xac nhan trang co bac / no hu vi pham (ghi vao suspicious_domains.txt).
+   - 40 - 69 diem: Vung nghi ngo (ghi vao suspect_review.txt de hau kiem).
+   - Duoi 40 diem: Trang an toan hoac khong du dau hieu ket luan.
 """
 
 import sys
@@ -36,7 +45,6 @@ from bs4 import BeautifulSoup
 
 KEYWORDS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "keywords.json")
 
-# Cau hinh mac dinh neu chua co keywords.json
 BRAND_PREFIXES = [
     "bet", "win", "club", "casino", "vip", "ku", "th", "sh", "fb", "fun",
     "f8", "ok", "new", "jun", "hi", "bk", "w", "m", "789", "b52", "rik", "sun",
@@ -79,13 +87,19 @@ GAMBLING_AND_SCAM_KEYWORDS = [
     "tuyển cskh campuchia", "tuyển telesale campuchia", "làm nhiệm vụ nhận hoa hồng", "giật đơn nhận tiền"
 ]
 
-# Regex cau truc ten mien thuong hieu co bac
+# Regex thuong hieu co bac
 BRAND_REGEX = re.compile(
-    r"(?:^|[\.-])([a-z0-9\-]+(?:88|77|99|68|79|388|888|789|999|52|188|365|6868|8888|202[4-9]|01|02|vip|win|pro)[a-z0-9\-]*)",
+    r"(?:kubet|sunwin|go88|789|hi88|jun88|tx|nohu|bet|b52|iwin|shbet|f8bet|new88|okvip|taixiu|baccarat|xocdia|daga)",
     re.IGNORECASE
 )
 
-# Nap du lieu dong tu keywords.json neu co
+# Regex cum tu giao dich tien that tren nut bam/banner
+REAL_MONEY_REGEX = re.compile(
+    r'(?:nạp\s*rút\s*1\s*[:\-]\s*1|nạp\s*tiền|rút\s*tiền|momo|giftcode\s*tân\s*thủ|thưởng\s*nạp|nạp\s*rút\s*tự\s*động|đăng\s*ký\s*nhận\s*\d+k|hoàn\s*trả\s*cược|tiền\s*cược\s*miễn\s*phí|thưởng\s*chào\s*mừng|rút\s*về\s*ngân\s*hàng)',
+    re.IGNORECASE
+)
+
+# Nap tu keywords.json neu co
 if os.path.exists(KEYWORDS_FILE):
     try:
         with open(KEYWORDS_FILE, "r", encoding="utf-8") as kf:
@@ -103,26 +117,26 @@ if os.path.exists(KEYWORDS_FILE):
     except Exception:
         pass
 
-# Whitelist tuyet doi
+# Whitelist co ban
 WHITELIST_DOMAINS = {
     "youtube.com", "youtu.be", "googlevideo.com", "google.com", "google.com.vn",
     "facebook.com", "fb.com", "messenger.com", "instagram.com", "tiktok.com",
     "twitter.com", "x.com", "github.com", "gitlab.com", "wikipedia.org",
     "apple.com", "microsoft.com", "cloudflare.com", "zalo.me", "tiki.vn",
-    "shopee.vn", "lazada.vn", "bluestacks.com", "apkpure.com",
+    "shopee.vn", "lazada.vn", "bluestacks.com", "apkpure.com", "play.google.com", "apps.apple.com",
     # Bao chi chinh thong Viet Nam
     "vnexpress.net", "dantri.com.vn", "tuoitre.vn", "thanhnien.vn", "24h.com.vn",
     "kenh14.vn", "zingnews.vn", "znews.vn", "baomoi.com", "vtv.vn", "vietnamnet.vn",
     "laodong.vn", "cand.com.vn", "tienphong.vn", "plo.vn", "nld.com.vn"
 }
 
-# Mobile User-Agents de chong Cloaking
 MOBILE_USER_AGENTS = [
     "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1",
     "Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.113 Mobile Safari/537.36",
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-    "Mozilla/5.0 (Linux; Android 13; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36"
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
 ]
+
+DESKTOP_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 
 PROXY_SOURCES = [
     "https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/http.txt",
@@ -131,7 +145,10 @@ PROXY_SOURCES = [
 
 
 def check_ssl_cert(domain, timeout=2.5):
-    """Kiem tra nha phat hanh SSL va tuoi tho chung chi (Let's Encrypt / ZeroSSL / cap duoi 60 ngay)"""
+    """
+    Kiem tra chung chi SSL mien phi (Let's Encrypt / ZeroSSL) moi cap duoi 30 ngay (+8d)
+    hoac chung chi ngan han khac (+4d).
+    """
     try:
         ctx = ssl.create_default_context()
         with socket.create_connection((domain, 443), timeout=timeout) as sock:
@@ -141,7 +158,7 @@ def check_ssl_cert(domain, timeout=2.5):
                 org = issuer.get("organizationName", "").lower()
                 cn = issuer.get("commonName", "").lower()
                 not_before = cert.get("notBefore")
-                is_free = any(k in f"{org} {cn}" for k in ["let's encrypt", "zerossl", "google trust", "cloudflare"])
+                is_free_ca = any(k in f"{org} {cn}" for k in ["let's encrypt", "zerossl"])
                 age_days = 999
                 if not_before:
                     try:
@@ -149,14 +166,19 @@ def check_ssl_cert(domain, timeout=2.5):
                         age_days = (datetime.now() - dt).days
                     except Exception:
                         pass
-                return is_free or (age_days < 60)
+                if is_free_ca and (0 <= age_days <= 30):
+                    return 8, f"Free SSL ({org[:15]}) cap < 30 ngay (+8d)"
+                elif is_free_ca or (0 <= age_days <= 60):
+                    return 4, f"Free SSL / Cap gan day ({age_days} ngay) (+4d)"
+                return 0, ""
     except Exception:
-        return False
+        return 0, ""
 
 
 class AdvancedGamblingCrawler:
     def __init__(self, output_file="/home/a/suspicious_domains.txt", max_workers=16, use_proxy=True):
         self.output_file = os.path.abspath(output_file)
+        self.suspect_file = os.path.join(os.path.dirname(self.output_file), "suspect_review.txt")
         self.max_workers = max_workers
         self.use_proxy = use_proxy
         self.proxies = []
@@ -167,21 +189,33 @@ class AdvancedGamblingCrawler:
         self.last_proxy_refresh = 0
 
         # Load danh sach domain da ghi nhan
-        if os.path.exists(self.output_file):
-            with open(self.output_file, "r", encoding="utf-8") as f:
-                for line in f:
-                    line = line.strip()
-                    if line and not line.startswith("#"):
-                        parts = line.split()
-                        if len(parts) >= 2:
-                            self.seen_domains.add(parts[1].lower())
+        for fpath in [self.output_file, self.suspect_file]:
+            if os.path.exists(fpath):
+                with open(fpath, "r", encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and not line.startswith("#"):
+                            parts = line.split()
+                            if len(parts) >= 2:
+                                self.seen_domains.add(parts[1].lower())
 
     def log(self, msg):
         now = time.strftime("%H:%M:%S")
         print(f"[{now}] {msg}", flush=True)
 
-    def is_whitelisted(self, domain):
+    def is_whitelisted(self, domain, html=""):
+        """
+        Bo loc truoc (Pre-filter):
+        - Bo qua co quan nha nuoc (.gov.vn, .gov)
+        - Bo qua giao duc (.edu.vn, .edu)
+        - Bo qua trang co tich xac thuc Bo Cong Thuong (online.gov.vn)
+        - Bo qua cac trang lon trong whitelist
+        """
         domain = domain.lower()
+        if domain.endswith(".gov.vn") or domain.endswith(".edu.vn") or domain.endswith(".gov") or domain.endswith(".edu"):
+            return True
+        if html and "online.gov.vn" in html:
+            return True
         for wl in WHITELIST_DOMAINS:
             if domain == wl or domain.endswith("." + wl):
                 return True
@@ -222,7 +256,6 @@ class AdvancedGamblingCrawler:
     def request_get(self, url, timeout=7):
         """Thuc hien HTTP GET voi Mobile User-Agent va theo doi Redirect (Uu tien IP Viet Nam truc tiep)"""
         headers = self.get_mobile_headers()
-        # Uu tien ket noi truc tiep de giu nguyen IP Viet Nam (Chong Cloaking)
         try:
             r = requests.get(url, headers=headers, timeout=timeout, allow_redirects=True)
             if r.status_code in [200, 301, 302, 307, 308]:
@@ -230,7 +263,7 @@ class AdvancedGamblingCrawler:
         except Exception:
             pass
 
-        # Fallback qua proxy neu ket noi truc tiep khong duoc
+        # Fallback qua proxy neu ket noi truc tiep bi chan
         if self.use_proxy and self.proxies:
             for _ in range(2):
                 p = random.choice(self.proxies)
@@ -242,158 +275,244 @@ class AdvancedGamblingCrawler:
                     pass
         return None
 
+    def check_cloaking(self, url, mobile_len):
+        """
+        Kiem tra ky thuat che giau (Cloaking):
+        Gui them 1 request nhe voi Desktop UA. Neu tra ve loi hoac do dai chenh lech > 50% -> Phat hien Cloaking (+10d)
+        """
+        try:
+            headers = {
+                "User-Agent": DESKTOP_USER_AGENT,
+                "Accept-Language": "en-US,en;q=0.9",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+            }
+            r_desk = requests.get(url, headers=headers, timeout=4, allow_redirects=True)
+            if r_desk.status_code in [403, 404]:
+                return True
+            desk_len = len(r_desk.text)
+            diff_ratio = abs(mobile_len - desk_len) / max(mobile_len, desk_len, 1)
+            if diff_ratio > 0.5:
+                return True
+        except Exception:
+            pass
+        return False
+
     def evaluate_risk_score(self, target_url, response):
         """
-        Bo cham diem rui ro da tin hieu (Thang 100 diem):
-        1. Noi dung trang (40d): Title/Meta (15d), Body indicators (15d), APK/IPA (10d)
-        2. Hanh vi chuyen huong (25d): HTTP Redirect (15d) / JS / Meta refresh (10-15d)
-        3. Cau truc ten mien (20d): Regex brand + so (12d) & High-risk TLD (8d)
-        4. Dau hieu ha tang (15d): Chat widget (7d), Cloudflare (4d), Free/Recent SSL (4d)
+        Bang trong so cham diem 100 diem va Co che tru diem xu ly duong tinh gia
         """
         nd_score = 0
         ch_score = 0
         tm_score = 0
         ht_score = 0
+        penalty_score = 0
         reasons = []
         extra_urls_to_crawl = []
 
         parsed_orig = urlparse(target_url)
         orig_domain = parsed_orig.netloc.lower().split(":")[0]
+        html_raw = response.text
+        html_lower = html_raw.lower()
+        soup = BeautifulSoup(html_raw, "html.parser")
 
         # ---------------------------------------------------------
-        # TÍN HIỆU 3: CẤU TRÚC TÊN MIỀN (Tối đa 20 điểm)
+        # PRE-FILTER: Kiem tra danh sach trang / Co quan nha nuoc / BCT
         # ---------------------------------------------------------
-        # Khớp Regex thương hiệu + số may mắn hoặc năm né chặn
-        matched_brand_pattern = BRAND_REGEX.search(orig_domain)
-        has_brand_prefix = any(b in orig_domain for b in BRAND_PREFIXES)
-        if matched_brand_pattern or has_brand_prefix:
+        if self.is_whitelisted(orig_domain, html_raw):
+            return 0, 0, 0, 0, 0, 0, ["Trang trong Whitelist / Chinh phu / Bo Cong Thuong"], []
+
+        # ---------------------------------------------------------
+        # NHOM 3: TEN MIEN (Toi da 20 diem)
+        # ---------------------------------------------------------
+        # Khop Regex thuong hieu hoac so dac trung (+12d)
+        has_brand = bool(BRAND_REGEX.search(orig_domain)) or any(b in orig_domain for b in BRAND_PREFIXES)
+        if has_brand:
             tm_score += 12
-            reasons.append("Pattern thuong hieu/so co bac")
+            reasons.append("Thuong hieu/so co bac (+12d)")
 
-        # TLD rủi ro cao giá rẻ
+        # Duoi ten mien TLD rui ro cao (+8d)
         has_risky_tld = any(orig_domain.endswith(tld) for tld in HIGH_RISK_TLDS)
         if has_risky_tld:
             tm_score += 8
-            reasons.append("TLD rui ro cao")
+            reasons.append("TLD rui ro cao (+8d)")
 
         tm_score = min(20, tm_score)
 
         # ---------------------------------------------------------
-        # TÍN HIỆU 2: HÀNH VI CHUYỂN HƯỚNG (Tối đa 25 điểm)
+        # NHOM 2: CHUYEN HUONG & CLOAKING (Toi da 25 diem)
         # ---------------------------------------------------------
+        # Chuyen huong tu dong (HTTP 301/302 hoac JS) sang ten mien khac (+15d)
         final_domain = urlparse(response.url).netloc.lower().split(":")[0]
+        has_cross_redirect = False
+
         if response.history:
             if final_domain != orig_domain:
                 ch_score += 15
-                reasons.append(f"HTTP Redirect sang {final_domain}")
+                has_cross_redirect = True
+                reasons.append(f"HTTP Redirect sang {final_domain} (+15d)")
                 if not self.is_whitelisted(final_domain):
                     extra_urls_to_crawl.append(response.url)
             else:
                 ch_score += 10
-                reasons.append("HTTP Redirect noi bo")
+                reasons.append("HTTP Redirect noi bo (+10d)")
 
-        html_raw = response.text
-        html_lower = html_raw.lower()
-
-        # Kiểm tra JavaScript / Meta refresh redirect
+        # Kiem tra JavaScript / Meta refresh redirect
         js_redirect_match = re.search(r'(?:window\.location|location\.href|location\.replace)\s*=\s*[\'"]([^\'"]+)[\'"]', html_raw)
         meta_refresh_match = re.search(r'<meta[^>]*http-equiv=[\'"]refresh[\'"][^>]*content=[\'"][^;]*;\s*url=([^\'"]+)[\'"]', html_raw, re.IGNORECASE)
 
         redirect_target = None
         if js_redirect_match:
             redirect_target = js_redirect_match.group(1).strip()
-            reasons.append("JS Redirect")
         elif meta_refresh_match:
             redirect_target = meta_refresh_match.group(1).strip()
-            reasons.append("Meta Refresh Redirect")
 
         if redirect_target:
-            ch_score += 10
             resolved_redir = urljoin(response.url, redirect_target)
             target_dom = urlparse(resolved_redir).netloc.lower().split(":")[0]
-            if target_dom and target_dom != orig_domain and not self.is_whitelisted(target_dom):
-                ch_score += 5
-                extra_urls_to_crawl.append(resolved_redir)
+            if target_dom and target_dom != orig_domain:
+                if not has_cross_redirect:
+                    ch_score += 15
+                    has_cross_redirect = True
+                reasons.append(f"JS/Meta Redirect sang {target_dom} (+15d)")
+                if not self.is_whitelisted(target_dom):
+                    extra_urls_to_crawl.append(resolved_redir)
+            elif ch_score == 0:
+                ch_score += 10
+                reasons.append("JS Redirect noi bo (+10d)")
+
+        # Ky thuat che giau (Cloaking) (+10d)
+        if self.check_cloaking(target_url, len(html_raw)):
+            ch_score += 10
+            reasons.append("Cloaking Mobile vs Desktop (+10d)")
 
         ch_score = min(25, ch_score)
 
         # ---------------------------------------------------------
-        # TÍN HIỆU 1: NỘI DUNG TRANG (Tối đa 40 điểm)
+        # NHOM 1: NOI DUNG & UI (Toi da 40 diem)
         # ---------------------------------------------------------
-        soup = BeautifulSoup(html_raw, "html.parser")
         title_text = (soup.title.string.strip() if soup.title and soup.title.string else "").lower()
         meta_desc = ""
         meta_tag = soup.find("meta", attrs={"name": re.compile(r"description", re.I)}) or soup.find("meta", attrs={"property": re.compile(r"og:description", re.I)})
         if meta_tag and meta_tag.get("content"):
             meta_desc = meta_tag["content"].lower()
 
-        header_content = f"{title_text} {meta_desc}"
-        core_keywords = ["tài xỉu", "nổ hũ", "xóc đĩa", "bắn cá", "lô đề", "baccarat", "cá cược", "kèo nhà cái", "casino", "việc làm campuchia", "bavet", "chrey thum", "nhà cái uy tín", "game bài đổi thưởng"]
-        matched_header = [k for k in core_keywords if k in header_content]
-        if matched_header:
-            nd_score += 15
-            reasons.append(f"Title/Meta: {matched_header[0]}")
+        # Thu thap noi dung tieu de va h1-h3
+        head_elements = [title_text, meta_desc]
+        for h_tag in soup.find_all(["h1", "h2", "h3"]):
+            head_elements.append(h_tag.get_text().strip().lower())
+        combined_head = " ".join(head_elements)
 
-        # Quét Body indicators
-        matched_body = [kw for kw in GAMBLING_AND_SCAM_KEYWORDS if kw in html_lower]
-        if len(matched_body) >= 3:
+        # Tu khoa co bac mat do cao: xuat hien tu 5 lan tro len trong title, meta, h1-h3 (+15d)
+        core_kws = ["nổ hũ", "tài xỉu", "xóc đĩa", "lô đề", "baccarat", "cá cược", "kèo nhà cái", "bắn cá", "casino", "game bài đổi thưởng"]
+        kw_density_count = sum(len(re.findall(re.escape(k), combined_head, re.I)) for k in core_kws)
+        if kw_density_count >= 5:
             nd_score += 15
-            reasons.append(f"Body kw ({len(matched_body)})")
-        elif len(matched_body) == 2:
-            nd_score += 10
-        elif len(matched_body) == 1:
-            nd_score += 5
+            reasons.append(f"Tu khoa co bac mat do cao ({kw_density_count} lan, +15d)")
+        elif kw_density_count >= 1:
+            nd_score += 8
+            reasons.append(f"Tu khoa tieu de/H1-H3 ({kw_density_count} lan, +8d)")
 
-        # Quét nút / liên kết tải APK / IPA
-        has_app_download = bool(
-            re.search(r'\.(?:apk|ipa)\b', html_raw, re.I) or
-            re.search(r'(?:tải\s*(?:app|bản cài)|download\s*(?:apk|ios|app)|cài đặt app)', html_raw, re.I)
-        )
-        if has_app_download:
+        # Cum tu giao dich tien that tren nut bam / banner / link (+15d)
+        cta_elements = soup.find_all(["button", "a", "input"])
+        cta_texts = [el.get_text().strip() for el in cta_elements if el.name != "input"]
+        cta_texts += [el.get("value", "") for el in cta_elements if el.name == "input"]
+        has_real_money_cta = any(REAL_MONEY_REGEX.search(txt) for txt in cta_texts) or bool(REAL_MONEY_REGEX.search(combined_head))
+        if has_real_money_cta:
+            nd_score += 15
+            reasons.append("Cum tu giao dich tien that nut/banner (+15d)")
+
+        # Link tai ung dung ngoai luong (.apk, .ipa, iOS config profile) (+10d)
+        sideload_app = False
+        for a_tag in soup.find_all("a", href=True):
+            href = a_tag["href"].strip().lower()
+            if re.search(r'\.(?:apk|ipa|mobileconfig)\b', href) or "download/apk" in href or "ios/profile" in href:
+                sideload_app = True
+                break
+        if not sideload_app:
+            if re.search(r'(?:tải\s*(?:bản cài|file)\s*apk|cài\s*đặt\s*cấu\s*hình\s*ios|tải\s*ipa)', html_raw, re.I):
+                sideload_app = True
+
+        if sideload_app:
             nd_score += 10
-            reasons.append("Tải bản cài APK/IPA")
+            reasons.append("Link tai app ngoai luong APK/IPA/iOS config (+10d)")
 
         nd_score = min(40, nd_score)
 
         # ---------------------------------------------------------
-        # TÍN HIỆU 4: DẤU HIỆU HẠ TẦNG (Tối đa 15 điểm)
+        # NHOM 4: HA TANG (Toi da 15 diem)
         # ---------------------------------------------------------
-        # Chat widgets Telegram / LiveChat / Tawk / Zalo hỗ trợ nạp tiền
-        has_chat = bool(
-            re.search(r'(?:t\.me/|telegram\.me/|livechatinc|tawk\.to|sp\.zalo\.me|crisp\.chat|smartsupp|comm100)', html_raw, re.I)
+        # Chung chi SSL mien phi moi cap duoi 30 ngay (+8d)
+        ssl_score, ssl_reason = check_ssl_cert(orig_domain)
+        if ssl_score > 0:
+            ht_score += ssl_score
+            reasons.append(ssl_reason)
+
+        # Kenh ho tro nap rut truc tiep: Widget LiveChat hoac t.me/ (+7d)
+        has_direct_support = bool(
+            re.search(r'(?:t\.me/|telegram\.me/|livechatinc|tawk\.to|crisp\.chat|smartsupp|comm100)', html_raw, re.I)
         )
-        if has_chat:
+        if has_direct_support:
             ht_score += 7
-            reasons.append("Widget CSKH/Telegram")
-
-        # Cloudflare header
-        server_header = response.headers.get("server", "").lower()
-        if "cloudflare" in server_header or "cf-ray" in response.headers:
-            ht_score += 4
-            reasons.append("Cloudflare Proxy")
-
-        # Chứng chỉ SSL miễn phí / mới cấp
-        if check_ssl_cert(orig_domain):
-            ht_score += 4
-            reasons.append("SSL Free/Moi cap")
+            reasons.append("Widget LiveChat/Telegram ho tro nap rut (+7d)")
 
         ht_score = min(15, ht_score)
 
-        total_score = nd_score + ch_score + tm_score + ht_score
+        # ---------------------------------------------------------
+        # CO CHE TRU DIEM XU LY DUONG TINH GIA (PENALTIES)
+        # ---------------------------------------------------------
+        # 1. Nhan dien bai bao tin tuc canh bao (-35d)
+        article_elem = soup.find("article") or soup.find("main") or soup.find("body")
+        article_text = article_elem.get_text() if article_elem else soup.get_text()
+        words = re.findall(r'\b\w+\b', article_text)
 
-        # Thu hoạch link ngoại từ trang
+        has_auth_form = bool(
+            soup.find("form") and (
+                soup.find("input", attrs={"type": "password"}) or
+                re.search(r'(?:đăng\s*ký|đăng\s*nhập|register|login)', soup.text, re.I)
+            )
+        )
+        has_deposit_action = bool(re.search(r'(?:nạp\s*tiền|rút\s*tiền|nạp\s*rút|thưởng\s*nạp)', soup.text, re.I))
+
+        if len(words) >= 800 and not has_auth_form and not has_deposit_action:
+            penalty_score += 35
+            reasons.append(f"Tru: Bai bao tin tuc canh bao ({len(words)} tu, -35d)")
+
+        # 2. Kiem tra kho ung dung chinh thong (-30d)
+        has_official_appstore = False
+        for a_tag in soup.find_all("a", href=True):
+            href_val = a_tag["href"].strip().lower()
+            if "play.google.com/store" in href_val or "apps.apple.com" in href_val:
+                has_official_appstore = True
+                break
+        if has_official_appstore and not sideload_app:
+            penalty_score += 30
+            reasons.append("Tru: Kho ung dung chinh thong Google Play / App Store (-30d)")
+
+        # 3. Xac minh thong tin doanh nghiep hop phap (-25d)
+        footer_elem = soup.find("footer") or soup.find("div", class_=re.compile(r"footer", re.I))
+        footer_text = footer_elem.get_text() if footer_elem else html_raw[-4000:]
+
+        mst_match = re.search(r'(?:mã\s*số\s*thuế|mst|tax\s*code|m\.s\.t|đkkd|gpdkkd)\s*[:.]?\s*(\d{10}(?:-\d{3})?)', footer_text, re.I)
+        has_vn_address = bool(re.search(r'(?:địa\s*chỉ|trụ\s*sở|tầng\s*\d+|phường|quận|huyện|thành\s*phố|tp\.|hà\s*nội|hồ\s*chí\s*minh|đà\s*nẵng|việt\s*nam)', footer_text, re.I))
+
+        if mst_match and has_vn_address and (ch_score == 0):
+            penalty_score += 25
+            reasons.append(f"Tru: Doanh nghiep hop phap/MST: {mst_match.group(1)} (-25d)")
+
+        # Tinh tong diem cuoi cung sau khi ap dung diem tru
+        raw_score = nd_score + ch_score + tm_score + ht_score
+        total_score = max(0, min(100, raw_score - penalty_score))
+
+        # Thu hoach link ngoai de quet sau
         for a_tag in soup.find_all("a", href=True):
             href = a_tag["href"].strip()
             if href.startswith("http"):
                 extra_urls_to_crawl.append(href)
 
-        return total_score, nd_score, ch_score, tm_score, ht_score, reasons, extra_urls_to_crawl
+        return total_score, nd_score, ch_score, tm_score, ht_score, penalty_score, reasons, extra_urls_to_crawl
 
     def synthetic_generator_thread(self):
-        """
-        Luong sinh to hop ten mien theo dung quy luat va kiem tra DNS song
-        (Brand + Number/Year/Suffix + Risky TLD)
-        """
+        """Luong sinh to hop ten mien theo quy luat va kiem tra DNS song"""
         self.log("Khoi dong luong sinh to hop ten mien thong minh (Synthetic Generator)...")
         prefixes = list(BRAND_PREFIXES)
         suffixes = list(BRAND_SUFFIXES) + ["", "01", "02", "vip", "club"]
@@ -413,7 +532,6 @@ class AdvancedGamblingCrawler:
                 resolved_count = 0
                 for cand in batch:
                     try:
-                        # Kiem tra nhanh bang phan giai DNS
                         socket.gethostbyname(cand)
                         self.url_queue.put_nowait(f"https://{cand}")
                         resolved_count += 1
@@ -426,7 +544,7 @@ class AdvancedGamblingCrawler:
                 time.sleep(4.0)
 
     def crtsh_query_thread(self):
-        """Luong khai thac Certificate Transparency Logs (crt.sh) theo thuong hieu"""
+        """Luong Certificate Transparency Logs (crt.sh)"""
         self.log("Khoi dong luong Certificate Transparency Harvester (crt.sh)...")
         key_brands = ["jun88", "kubet", "hi88", "789bet", "f8bet", "new88", "shbet", "sunwin", "go88", "b52", "iwin", "okvip"]
         idx = 0
@@ -435,7 +553,6 @@ class AdvancedGamblingCrawler:
             brand = key_brands[idx % len(key_brands)]
             idx += 1
             try:
-                # Query domain co san duoi .com / .vip
                 url = f"https://crt.sh/?q={brand}.com&output=json"
                 r = requests.get(url, timeout=6)
                 if r.status_code == 200:
@@ -470,7 +587,6 @@ class AdvancedGamblingCrawler:
                 q_idx += 1
                 try:
                     headers = self.get_mobile_headers()
-                    # Query Mojeek / DuckDuckGo / Yahoo fallback
                     r = requests.get(f"https://search.yahoo.com/search?p={requests.utils.quote(q)}", headers=headers, timeout=6)
                     if r.status_code == 200:
                         soup = BeautifulSoup(r.text, "html.parser")
@@ -491,7 +607,7 @@ class AdvancedGamblingCrawler:
                 time.sleep(5.0)
 
     def worker_thread(self, bot_id):
-        """Luong xu ly danh gia 100 diem tung URL (Consumer)"""
+        """Luong xu ly danh gia phan loai tung URL (Consumer)"""
         while not self.stop_event.is_set():
             try:
                 target_url = self.url_queue.get(timeout=2.0)
@@ -508,42 +624,59 @@ class AdvancedGamblingCrawler:
                 if not r or len(r.text) < 150:
                     continue
 
-                total, nd, ch, tm, ht, reasons, extra_links = self.evaluate_risk_score(target_url, r)
+                total, nd, ch, tm, ht, penalty, reasons, extra_links = self.evaluate_risk_score(target_url, r)
 
-                # NGUONG CHAN: Danh dau khi Tong diem >= 70 / 100
+                # THANG DANH GIA PHAN LOAI:
+                # 1. 70 - 100 diem: Xac nhan trang co bac / no hu vi pham (gan nhan chan)
                 if total >= 70 and not self.is_whitelisted(domain):
                     with self.lock:
                         if domain not in self.seen_domains:
                             self.seen_domains.add(domain)
                             timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-                            score_breakdown = f"Diem: {total}/100 (ND:{nd}, CH:{ch}, TM:{tm}, HT:{ht})"
+                            score_breakdown = f"VI PHAM ({total}/100) [ND:{nd}, CH:{ch}, TM:{tm}, HT:{ht}, Tru:{penalty}]"
                             reason_str = ", ".join(reasons) if reasons else "Dau hieu tong hop"
                             log_entry = f"0.0.0.0 {domain} # {timestamp} | {score_breakdown} | Ly do: {reason_str}\n"
 
                             with open(self.output_file, "a", encoding="utf-8") as f:
                                 f.write(log_entry)
 
-                            self.log(f"[BOT-{bot_id} PHAT HIEN] {domain} | {score_breakdown} | {reason_str}")
+                            self.log(f"[BOT-{bot_id} VI PHAM] {domain} | {score_breakdown} | {reason_str}")
 
-                    # Dao sau (Harvest) cac URL phat hien duoc
-                    for link in extra_links[:15]:
-                        if link.startswith("http"):
-                            link_dom = urlparse(link).netloc.lower().split(":")[0]
-                            if link_dom and not self.is_whitelisted(link_dom) and link_dom not in self.seen_domains:
-                                try:
-                                    self.url_queue.put_nowait(link)
-                                except queue.Full:
-                                    break
+                # 2. 40 - 69 diem: Vung nghi ngo (luu lai de hau kiem)
+                elif 40 <= total < 70 and not self.is_whitelisted(domain):
+                    with self.lock:
+                        if domain not in self.seen_domains:
+                            self.seen_domains.add(domain)
+                            timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+                            score_breakdown = f"NGHI NGO ({total}/100) [ND:{nd}, CH:{ch}, TM:{tm}, HT:{ht}, Tru:{penalty}]"
+                            reason_str = ", ".join(reasons) if reasons else "Dau hieu nghi ngo"
+                            log_entry = f"# 0.0.0.0 {domain} # {timestamp} | {score_breakdown} | Ly do: {reason_str}\n"
+
+                            with open(self.suspect_file, "a", encoding="utf-8") as f:
+                                f.write(log_entry)
+
+                            self.log(f"[BOT-{bot_id} NGHI NGO] {domain} | {score_breakdown} | {reason_str}")
+
+                # 3. Duoi 40 diem: Trang an toan hoac khong du dau hieu ket luan (bo qua)
+
+                # Dao sau link thu hoach duoc
+                for link in extra_links[:15]:
+                    if link.startswith("http"):
+                        link_dom = urlparse(link).netloc.lower().split(":")[0]
+                        if link_dom and not self.is_whitelisted(link_dom) and link_dom not in self.seen_domains:
+                            try:
+                                self.url_queue.put_nowait(link)
+                            except queue.Full:
+                                break
             except Exception:
                 pass
             finally:
                 self.url_queue.task_done()
 
     def run(self, max_minutes=None):
-        self.log(f"Khoi dong he thong voi {self.max_workers} bot kiem tra da tin hieu (Thang 100 diem)...")
+        self.log(f"Khoi dong he thong voi {self.max_workers} bot phan loai da tin hieu (Bang trong so 100d + Co che tru diem)...")
         self.fetch_free_proxies()
 
-        # Khoi dong cac luong Harvester & Generator
         t_synth = threading.Thread(target=self.synthetic_generator_thread, daemon=True)
         t_synth.start()
 
@@ -553,7 +686,6 @@ class AdvancedGamblingCrawler:
         t_search = threading.Thread(target=self.search_engine_thread, daemon=True)
         t_search.start()
 
-        # Khoi dong 16 Bot Consumer
         threads = []
         for i in range(1, self.max_workers + 1):
             t = threading.Thread(target=self.worker_thread, args=(i,), daemon=True)
@@ -565,7 +697,7 @@ class AdvancedGamblingCrawler:
             while not self.stop_event.is_set():
                 time.sleep(10)
                 elapsed = time.time() - start_time
-                self.log(f"[Trang thai] Dang chay {self.max_workers} bot song song | Hang doi: {self.url_queue.qsize()} URL | Tong domain da xac thuc: {len(self.seen_domains)}")
+                self.log(f"[Trang thai] Dang chay {self.max_workers} bot song song | Hang doi: {self.url_queue.qsize()} URL | Tong domain da xu ly: {len(self.seen_domains)}")
                 if max_minutes and (elapsed / 60.0) >= max_minutes:
                     self.log(f"Da dat thoi gian gioi han {max_minutes} phut. Dung.")
                     break
