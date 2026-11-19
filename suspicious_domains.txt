@@ -94,3 +94,7 @@
 0.0.0.0 www.u888-vipv.com # 2026-11-19 22:21:02 | Diem: 6 | Domain Pattern 'u888-vipv.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
 0.0.0.0 www.kangen-k8v.com # 2026-11-19 22:21:24 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
 0.0.0.0 www.j88-lovev.com # 2026-11-19 22:21:28 | Diem: 7 | Domain Pattern 'j88-lovev.com' | Tu khoa: cá cược, nổ hũ, roulette
+0.0.0.0 ipphone.vn # 2026-11-19 15:23:41 | Diem: 2 | Tu khoa: cá cược, tài xỉu
+0.0.0.0 www.bluestacks.com # 2026-11-19 15:23:43 | Diem: 1 | Tu khoa: tài xỉu
+0.0.0.0 daga33.bet # 2026-11-19 15:23:45 | Diem: 2 | Tu khoa: baccarat, live casino
+0.0.0.0 play.google.com # 2026-11-19 15:23:46 | Diem: 3 | Tu khoa: tài xỉu, sicbo, game tài xỉu
