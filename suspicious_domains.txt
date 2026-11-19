@@ -1,98 +1,361 @@
-0.0.0.0 slny.io # 2026-11-19 17:57:03 | Diem: 5 | Tu khoa: cá cược, kèo nhà cái, tài xỉu, nhà cái uy tín
-0.0.0.0 toyin.io # 2026-11-19 17:57:13 | Diem: 5 | Tu khoa: cá cược, kèo nhà cái, tài xỉu, nhà cái uy tín
-0.0.0.0 www.bongdanet.co # 2026-11-19 17:57:23 | Diem: 2 | Tu khoa: cá cược, kèo nhà cái
-0.0.0.0 nhandinhkeonhacai.org # 2026-11-19 17:57:24 | Diem: 3 | Tu khoa: cá cược, kèo nhà cái, nhà cái uy tín
+# ihategambling blocklist
+0.0.0.0 13win1game.com # 2026-11-19 22:32:53 | Diem: 2 | Tu khoa: baccarat, roulette
+0.0.0.0 2918.cn.com # 2026-11-19 22:34:35 | Diem: 4 | Tu khoa: cá cược, đá gà thomo, đá gà cpc
+0.0.0.0 358win358.com # 2026-11-19 22:32:53 | Diem: 4 | Tu khoa: baccarat, sicbo, roulette
+0.0.0.0 39bet17bet.com # 2026-11-19 22:32:47 | Diem: 1 | Tu khoa: baccarat
+0.0.0.0 6623aaahomebet.com # 2026-11-19 22:33:50 | Diem: 2 | Tu khoa: baccarat, roulette
+0.0.0.0 68gbapp68.com # 2026-11-19 22:32:51 | Diem: 5 | Domain Pattern '68gbapp68.com' | Tu khoa: baccarat, roulette
+0.0.0.0 92club92.com # 2026-11-19 22:31:48 | Diem: 2 | Tu khoa: baccarat, roulette
 0.0.0.0 afit.io # 2026-11-19 17:57:27 | Diem: 4 | Tu khoa: cá cược, kèo nhà cái, tài xỉu, kèo châu á
-0.0.0.0 keonhacai9.vip # 2026-11-19 17:57:34 | Diem: 5 | Tu khoa: kèo nhà cái, tài xỉu, game bài đổi thưởng, nhà cái uy tín
 0.0.0.0 bedaka.tv # 2026-11-19 17:57:37 | Diem: 4 | Tu khoa: cá cược, kèo nhà cái, tài xỉu, kèo châu á
-0.0.0.0 www.keobongday.com # 2026-11-19 17:57:42 | Diem: 4 | Tu khoa: kèo nhà cái, tài xỉu, nhà cái uy tín, kèo châu á
+0.0.0.0 bi88bi.com # 2026-11-19 22:31:50 | Diem: 6 | Domain Pattern 'bi88bi.com' | Tu khoa: baccarat, sicbo, roulette
 0.0.0.0 casinoonlinevina.com # 2026-11-19 22:11:12 | Diem: 9 | Tu khoa: cá cược, tài xỉu, baccarat
-0.0.0.0 fb789.pro # 2026-11-19 22:11:17 | Diem: 5 | Domain Pattern 'fb789.pro' | Tu khoa: baccarat, live casino
-0.0.0.0 fb789.org # 2026-11-19 22:11:26 | Diem: 4 | Domain Pattern 'fb789.org' | Tu khoa: baccarat
-0.0.0.0 fb68fb.com # 2026-11-19 22:17:39 | Diem: 5 | Domain Pattern 'fb68fb.com' | Tu khoa: baccarat, roulette
-0.0.0.0 fb68slot.com # 2026-11-19 22:17:39 | Diem: 4 | Domain Pattern 'fb68slot.com' | Tu khoa: roulette
-0.0.0.0 www.fb681.com # 2026-11-19 22:17:40 | Diem: 6 | Domain Pattern 'fb681.com' | Tu khoa: nổ hũ, nhà cái uy tín, sòng bạc
-0.0.0.0 fb68app.com # 2026-11-19 22:17:44 | Diem: 3 | Domain Pattern 'fb68app.com'
+0.0.0.0 daga33.bet # 2026-11-19 15:23:45 | Diem: 2 | Tu khoa: baccarat, live casino
+0.0.0.0 daga666st.com # 2026-11-19 22:34:14 | Diem: 2 | Tu khoa: cá cược, casino trực tuyến
+0.0.0.0 daga68.win # 2026-11-19 22:32:01 | Diem: 4 | Domain Pattern 'daga68.win' | Tu khoa: baccarat
+0.0.0.0 daga88.black # 2026-11-19 22:34:00 | Diem: 6 | Domain Pattern 'daga88.black' | Tu khoa: cá cược, đá gà thomo, đá gà cpc
+0.0.0.0 daga88.charity # 2026-11-19 22:32:02 | Diem: 6 | Domain Pattern 'daga88.charity' | Tu khoa: cá cược, đá gà thomo, đá gà cpc
+0.0.0.0 daga88.charity # 2026-11-19 22:34:49 | Diem: 6 | Domain Pattern 'daga88.charity' | Tu khoa: cá cược, đá gà thomo, đá gà cpc
+0.0.0.0 dagatructiep247.tv # 2026-11-19 22:31:57 | Diem: 2 | Tu khoa: đá gà thomo, đá gà cpc
+0.0.0.0 dagatructiep247.tv # 2026-11-19 22:33:55 | Diem: 2 | Tu khoa: đá gà thomo, đá gà cpc
+0.0.0.0 dagatructiep24h.com # 2026-11-19 22:33:06 | Diem: 4 | Tu khoa: cá cược, đá gà thomo, đá gà cpc
+0.0.0.0 dagatructiep24h.com # 2026-11-19 22:32:06 | Diem: 4 | Tu khoa: cá cược, đá gà thomo, đá gà cpc
+0.0.0.0 dn88.dn88dn.com # 2026-11-19 22:33:06 | Diem: 5 | Domain Pattern 'dn88.dn' | Tu khoa: baccarat, roulette
+0.0.0.0 dn88dn.com # 2026-11-19 22:31:50 | Diem: 5 | Domain Pattern 'dn88dn.com' | Tu khoa: baccarat, roulette
+0.0.0.0 f1686f.com # 2026-11-19 22:31:58 | Diem: 4 | Domain Pattern 'f1686f.com' | Tu khoa: baccarat
+0.0.0.0 f1686l.com # 2026-11-19 22:33:00 | Diem: 3 | Domain Pattern 'f1686l.com'
+0.0.0.0 f1686m.com # 2026-11-19 22:33:09 | Diem: 5 | Domain Pattern 'f1686m.com' | Tu khoa: baccarat, roulette
+0.0.0.0 f169bet.com # 2026-11-19 22:32:05 | Diem: 0 | Dau hieu xac thuc
+0.0.0.0 f186f.com # 2026-11-19 22:32:02 | Diem: 3 | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 f888.dev # 2026-11-19 22:29:36 | Diem: 6 | Domain Pattern 'f888.dev' | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 f888vips.com # 2026-11-19 22:29:33 | Diem: 5 | Domain Pattern 'f888vips.com' | Tu khoa: baccarat, roulette
+0.0.0.0 f88m.org # 2026-11-19 22:29:37 | Diem: 5 | Domain Pattern 'f88m.org' | Tu khoa: baccarat, roulette
+0.0.0.0 f88nohuvip.com # 2026-11-19 22:31:15 | Diem: 3 | Domain Pattern 'f88nohuvip.com'
 0.0.0.0 fb68.me # 2026-11-19 22:17:44 | Diem: 5 | Domain Pattern 'fb68.me' | Tu khoa: baccarat, live casino
 0.0.0.0 fb68.pro # 2026-11-19 22:17:44 | Diem: 6 | Domain Pattern 'fb68.pro' | Tu khoa: baccarat, roulette, live casino
-0.0.0.0 www.five-888v.com # 2026-11-19 22:18:04 | Diem: 9 | Domain Pattern 'five-888v.com' | Tu khoa: cá cược, tài xỉu, baccarat
-0.0.0.0 www.8k11111v.com # 2026-11-19 22:18:09 | Diem: 4 | Tu khoa: cá cược, nổ hũ, rồng hổ
-0.0.0.0 www.kv9991.com # 2026-11-19 22:18:11 | Diem: 5 | Domain Pattern 'kv9991.com' | Tu khoa: nổ hũ, sòng bạc
+0.0.0.0 fb68app.com # 2026-11-19 22:17:44 | Diem: 3 | Domain Pattern 'fb68app.com'
+0.0.0.0 fb68fb.com # 2026-11-19 22:17:39 | Diem: 5 | Domain Pattern 'fb68fb.com' | Tu khoa: baccarat, roulette
+0.0.0.0 fb68slot.com # 2026-11-19 22:17:39 | Diem: 4 | Domain Pattern 'fb68slot.com' | Tu khoa: roulette
+0.0.0.0 fb789.org # 2026-11-19 22:11:26 | Diem: 4 | Domain Pattern 'fb789.org' | Tu khoa: baccarat
+0.0.0.0 fb789.pro # 2026-11-19 22:11:17 | Diem: 5 | Domain Pattern 'fb789.pro' | Tu khoa: baccarat, live casino
+0.0.0.0 five88.gives # 2026-11-19 22:29:38 | Diem: 20 | Domain Pattern 'five88.gives' | Tu khoa: cá cược, cá độ, kèo nhà cái
+0.0.0.0 five88.men # 2026-11-19 22:29:38 | Diem: 6 | Domain Pattern 'five88.men' | Tu khoa: cá cược, casino trực tuyến, nhà cái uy tín
+0.0.0.0 five88.ninja # 2026-11-19 22:30:19 | Diem: 3 | Domain Pattern 'five88.ninja'
+0.0.0.0 galua.pro # 2026-11-19 22:32:01 | Diem: 1 | Tu khoa: đá gà thomo
+0.0.0.0 galua.pro # 2026-11-19 22:33:43 | Diem: 1 | Tu khoa: đá gà thomo
+0.0.0.0 go88.my # 2026-11-19 22:31:54 | Diem: 3 | Domain Pattern 'go88.my'
+0.0.0.0 go88u.one # 2026-11-19 22:33:08 | Diem: 19 | Domain Pattern 'go88u.one' | Tu khoa: cá cược, tài xỉu, tài xỉu md5
+0.0.0.0 ipphone.vn # 2026-11-19 15:23:41 | Diem: 2 | Tu khoa: cá cược, tài xỉu
+0.0.0.0 jn88jn.com # 2026-11-19 22:32:48 | Diem: 5 | Domain Pattern 'jn88jn.com' | Tu khoa: baccarat, roulette
+0.0.0.0 joelloans.com # 2026-11-19 22:33:55 | Diem: 2 | Tu khoa: baccarat, roulette
+0.0.0.0 keonhacai9.vip # 2026-11-19 17:57:34 | Diem: 5 | Tu khoa: kèo nhà cái, tài xỉu, game bài đổi thưởng, nhà cái uy tín
+0.0.0.0 luck88homevip.com # 2026-11-19 22:33:02 | Diem: 3 | Domain Pattern 'luck88homevip.com'
+0.0.0.0 mit388.live # 2026-11-19 22:33:54 | Diem: 5 | Domain Pattern 'mit388.live' | Tu khoa: đá gà thomo, đá gà cựa dao
+0.0.0.0 nhandinhkeonhacai.org # 2026-11-19 17:57:24 | Diem: 3 | Tu khoa: cá cược, kèo nhà cái, nhà cái uy tín
+0.0.0.0 qg88qg.com # 2026-11-19 22:33:49 | Diem: 4 | Domain Pattern 'qg88qg.com' | Tu khoa: live casino
+0.0.0.0 ric.win # 2026-11-19 22:34:53 | Diem: 11 | Tu khoa: cá cược, cá độ, tài xỉu
+0.0.0.0 s77.bingo # 2026-11-19 22:34:16 | Diem: 7 | Domain Pattern 's77.bingo' | Tu khoa: baccarat, sicbo, roulette
+0.0.0.0 s777.tv # 2026-11-19 22:34:22 | Diem: 6 | Domain Pattern 's777.tv' | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 saigon77.bet # 2026-11-19 22:34:27 | Diem: 6 | Domain Pattern 'saigon77.bet' | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 sh77.one # 2026-11-19 22:34:33 | Diem: 5 | Domain Pattern 'sh77.one' | Tu khoa: baccarat, live casino
+0.0.0.0 sh77.vip # 2026-11-19 22:34:21 | Diem: 6 | Domain Pattern 'sh77.vip' | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 sh777.live # 2026-11-19 22:34:13 | Diem: 6 | Domain Pattern 'sh777.live' | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 sh777.vin # 2026-11-19 22:34:36 | Diem: 6 | Domain Pattern 'sh777.vin' | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 slny.io # 2026-11-19 17:57:03 | Diem: 5 | Tu khoa: cá cược, kèo nhà cái, tài xỉu, nhà cái uy tín
+0.0.0.0 sone822.com # 2026-11-19 22:29:37 | Diem: 3 | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 sv6868.com # 2026-11-19 22:32:05 | Diem: 7 | Domain Pattern 'sv6868.com' | Tu khoa: cá cược, đá gà thomo, nhà cái uy tín
+0.0.0.0 sv6869.net # 2026-11-19 22:32:03 | Diem: 4 | Domain Pattern 'sv6869.net' | Tu khoa: đá gà thomo
+0.0.0.0 sz777.games # 2026-11-19 22:34:26 | Diem: 6 | Domain Pattern 'sz777.games' | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 top88.club # 2026-11-19 22:35:20 | Diem: 6 | Domain Pattern 'top88.club' | Tu khoa: tài xỉu, game bài đổi thưởng, xóc đĩa
+0.0.0.0 toyin.io # 2026-11-19 17:57:13 | Diem: 5 | Tu khoa: cá cược, kèo nhà cái, tài xỉu, nhà cái uy tín
+0.0.0.0 tv888slot.com # 2026-11-19 22:32:56 | Diem: 5 | Domain Pattern 'tv888slot.com' | Tu khoa: baccarat, roulette
+0.0.0.0 ty88win.com # 2026-11-19 22:32:56 | Diem: 6 | Domain Pattern 'ty88win.com' | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 u88new.com # 2026-11-19 22:34:11 | Diem: 3 | Domain Pattern 'u88new.com'
+0.0.0.0 ue88ue.com # 2026-11-19 22:33:04 | Diem: 6 | Domain Pattern 'ue88ue.com' | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 vic.win # 2026-11-19 22:34:11 | Diem: 6 | Tu khoa: tài xỉu, tài xỉu md5, casino trực tuyến
+0.0.0.0 vs777.vin # 2026-11-19 22:34:14 | Diem: 6 | Domain Pattern 'vs777.vin' | Tu khoa: baccarat, roulette, live casino
+0.0.0.0 wm88wm.com # 2026-11-19 22:33:53 | Diem: 3 | Domain Pattern 'wm88wm.com'
+0.0.0.0 www.007-winv.com # 2026-11-19 22:31:10 | Diem: 2 | Tu khoa: nổ hũ, sòng bạc
+0.0.0.0 www.1133winv.com # 2026-11-19 22:20:33 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.1179kingv.com # 2026-11-19 22:26:30 | Diem: 5 | Domain Pattern '1179kingv.com' | Tu khoa: nổ hũ, sòng bạc
+0.0.0.0 www.123b123bv.com # 2026-11-19 22:20:37 | Diem: 2 | Tu khoa: cá cược, nổ hũ
 0.0.0.0 www.123ga1.com # 2026-11-19 22:18:14 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.az6681.com # 2026-11-19 22:18:19 | Diem: 9 | Domain Pattern 'az6681.com' | Tu khoa: cá cược, tài xỉu, baccarat
-0.0.0.0 www.8k77777v.com # 2026-11-19 22:18:40 | Diem: 7 | Domain Pattern '8k77777v.com' | Tu khoa: baccarat, nổ hũ, roulette
-0.0.0.0 www.90ok1.com # 2026-11-19 22:18:44 | Diem: 5 | Tu khoa: baccarat, casino trực tuyến, nổ hũ
-0.0.0.0 www.ben-betv.com # 2026-11-19 22:18:45 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.ga671.com # 2026-11-19 22:18:48 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.123win91v.com # 2026-11-19 22:32:16 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.12go1.com # 2026-11-19 22:33:32 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.13win12v.com # 2026-11-19 22:34:12 | Diem: 3 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.168vn1.com # 2026-11-19 22:29:42 | Diem: 6 | Domain Pattern '168vn1.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.1888betv.com # 2026-11-19 22:31:11 | Diem: 7 | Domain Pattern '1888betv.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.188cm1.com # 2026-11-19 22:26:18 | Diem: 6 | Domain Pattern '188cm1.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.22hello88v.com # 2026-11-19 22:28:59 | Diem: 8 | Domain Pattern '22hello88v.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.32-win1.com # 2026-11-19 22:29:47 | Diem: 4 | Tu khoa: baccarat, nổ hũ, roulette
+0.0.0.0 www.32win32v.com # 2026-11-19 22:35:32 | Diem: 5 | Tu khoa: baccarat, nổ hũ, game bài đổi thưởng
+0.0.0.0 www.3333winv.com # 2026-11-19 22:34:21 | Diem: 6 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
+0.0.0.0 www.33king1.com # 2026-11-19 22:32:02 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.33win011.com # 2026-11-19 22:31:52 | Diem: 8 | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.33win01v.com # 2026-11-19 22:20:07 | Diem: 7 | Tu khoa: tài xỉu, nổ hũ, bầu cua
+0.0.0.0 www.33win021.com # 2026-11-19 22:31:48 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.33win33v.com # 2026-11-19 22:28:44 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.33win391.com # 2026-11-19 22:33:23 | Diem: 2 | Tu khoa: nổ hũ, sòng bạc
+0.0.0.0 www.33win681.com # 2026-11-19 22:19:43 | Diem: 8 | Domain Pattern '33win681.com' | Tu khoa: cá cược, nổ hũ, game bài đổi thưởng
+0.0.0.0 www.33win99v.com # 2026-11-19 22:27:30 | Diem: 8 | Domain Pattern '33win99v.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.365-slotv.com # 2026-11-19 22:26:36 | Diem: 6 | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.368-betv.com # 2026-11-19 22:34:17 | Diem: 4 | Domain Pattern '368-betv.com' | Tu khoa: nổ hũ
+0.0.0.0 www.368ga1.com # 2026-11-19 22:33:10 | Diem: 8 | Domain Pattern '368ga1.com' | Tu khoa: tài xỉu, baccarat, casino trực tuyến
+0.0.0.0 www.55win55v.com # 2026-11-19 22:25:38 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
 0.0.0.0 www.566-vinv.com # 2026-11-19 22:18:49 | Diem: 6 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
-0.0.0.0 www.ray-betv.com # 2026-11-19 22:18:50 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.gk991.com # 2026-11-19 22:18:51 | Diem: 9 | Domain Pattern 'gk991.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
-0.0.0.0 www.77king88v.com # 2026-11-19 22:18:51 | Diem: 7 | Domain Pattern '77king88v.com' | Tu khoa: cá cược, casino trực tuyến, nổ hũ
-0.0.0.0 www.ga841.com # 2026-11-19 22:18:51 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.rr88bet1.com # 2026-11-19 22:18:51 | Diem: 4 | Domain Pattern 'rr88bet1.com' | Tu khoa: nổ hũ
-0.0.0.0 www.ga1021.com # 2026-11-19 22:18:53 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.i9bet58v.com # 2026-11-19 22:18:54 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.567-livev.com # 2026-11-19 22:26:32 | Diem: 8 | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.5699win1.com # 2026-11-19 22:26:27 | Diem: 9 | Domain Pattern '5699win1.com' | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.679kingv.com # 2026-11-19 22:35:16 | Diem: 4 | Domain Pattern '679kingv.com' | Tu khoa: nổ hũ
+0.0.0.0 www.68-win1.com # 2026-11-19 22:32:11 | Diem: 6 | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.69-vn1.com # 2026-11-19 22:33:38 | Diem: 4 | Tu khoa: tài xỉu, nổ hũ, roulette
+0.0.0.0 www.69vin1.com # 2026-11-19 22:30:00 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.69vm1.com # 2026-11-19 22:32:01 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.777king99v.com # 2026-11-19 22:26:27 | Diem: 6 | Domain Pattern '777king99v.com' | Tu khoa: nổ hũ, khuyến mãi tân thủ, sòng bạc
+0.0.0.0 www.777vin777v.com # 2026-11-19 22:26:20 | Diem: 9 | Domain Pattern '777vin777v.com' | Tu khoa: tài xỉu, baccarat, casino trực tuyến
 0.0.0.0 www.7789betv.com # 2026-11-19 22:18:57 | Diem: 8 | Domain Pattern '7789betv.com' | Tu khoa: cá cược, tài xỉu, baccarat
-0.0.0.0 www.nk-881.com # 2026-11-19 22:18:58 | Diem: 8 | Domain Pattern 'nk-881.com' | Tu khoa: baccarat, casino trực tuyến, nổ hũ
-0.0.0.0 www.nohu-90v.com # 2026-11-19 22:18:59 | Diem: 5 | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.77king88v.com # 2026-11-19 22:18:51 | Diem: 7 | Domain Pattern '77king88v.com' | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.77vv1.com # 2026-11-19 22:26:26 | Diem: 8 | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.789betsv.com # 2026-11-19 22:26:50 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.789q1.com # 2026-11-19 22:29:55 | Diem: 4 | Tu khoa: cá cược, nổ hũ, roulette
+0.0.0.0 www.789win911.com # 2026-11-19 22:34:12 | Diem: 4 | Tu khoa: cá cược, nổ hũ, sicbo
+0.0.0.0 www.789win91v.com # 2026-11-19 22:32:01 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.79king2v.com # 2026-11-19 22:20:50 | Diem: 7 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
+0.0.0.0 www.79king78v.com # 2026-11-19 22:20:53 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.79king9v.com # 2026-11-19 22:29:38 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.79sodo1.com # 2026-11-19 22:32:08 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.85win1.com # 2026-11-19 22:25:32 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.868vip11.com # 2026-11-19 22:27:51 | Diem: 6 | Domain Pattern '868vip11.com' | Tu khoa: tài xỉu, nổ hũ, roulette
+0.0.0.0 www.868vip1v.com # 2026-11-19 22:19:45 | Diem: 6 | Domain Pattern '868vip1v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.88-clubv.com # 2026-11-19 22:33:13 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.888bet1.com # 2026-11-19 22:31:03 | Diem: 8 | Domain Pattern '888bet1.com' | Tu khoa: cá cược, nổ hũ, sicbo
+0.0.0.0 www.888i1.com # 2026-11-19 22:19:59 | Diem: 6 | Domain Pattern '888i1.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.888vv1.com # 2026-11-19 22:31:58 | Diem: 7 | Domain Pattern '888vv1.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.88i-betv.com # 2026-11-19 22:27:27 | Diem: 4 | Tu khoa: cá cược, nổ hũ, roulette
+0.0.0.0 www.88i-win1.com # 2026-11-19 22:34:15 | Diem: 4 | Tu khoa: tài xỉu, nổ hũ, rồng hổ
+0.0.0.0 www.88onlinev.com # 2026-11-19 22:34:25 | Diem: 6 | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.8k11111v.com # 2026-11-19 22:18:09 | Diem: 4 | Tu khoa: cá cược, nổ hũ, rồng hổ
+0.0.0.0 www.8k77777v.com # 2026-11-19 22:18:40 | Diem: 7 | Domain Pattern '8k77777v.com' | Tu khoa: baccarat, nổ hũ, roulette
+0.0.0.0 www.8kbet-cc1.com # 2026-11-19 22:33:24 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.8kbet456v.com # 2026-11-19 22:28:51 | Diem: 6 | Tu khoa: baccarat, casino trực tuyến, nổ hũ
+0.0.0.0 www.8ki1.com # 2026-11-19 22:26:38 | Diem: 3 | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.8vv1.com # 2026-11-19 22:35:22 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.90-linkv.com # 2026-11-19 22:31:11 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.90m1.com # 2026-11-19 22:25:25 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.90ok1.com # 2026-11-19 22:18:44 | Diem: 5 | Tu khoa: baccarat, casino trực tuyến, nổ hũ
+0.0.0.0 www.91-linkv.com # 2026-11-19 22:32:24 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.98vin1.com # 2026-11-19 22:31:58 | Diem: 6 | Tu khoa: baccarat, casino trực tuyến, nổ hũ
+0.0.0.0 www.98wim1.com # 2026-11-19 22:29:55 | Diem: 5 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
+0.0.0.0 www.98win011.com # 2026-11-19 22:29:43 | Diem: 5 | Tu khoa: baccarat, casino trực tuyến, nổ hũ
+0.0.0.0 www.98win01v.com # 2026-11-19 22:33:07 | Diem: 4 | Tu khoa: cá cược, tài xỉu, nổ hũ
 0.0.0.0 www.98win761.com # 2026-11-19 22:19:01 | Diem: 3 | Tu khoa: cá cược, tài xỉu, nổ hũ
-0.0.0.0 www.oke-365v.com # 2026-11-19 22:19:01 | Diem: 5 | Domain Pattern 'oke-365v.com' | Tu khoa: cá cược, nổ hũ
-0.0.0.0 www.i9bet1511.com # 2026-11-19 22:19:02 | Diem: 2 | Tu khoa: cá cược, nổ hũ
-0.0.0.0 www.vm661.com # 2026-11-19 22:19:03 | Diem: 6 | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.hot7891.com # 2026-11-19 22:19:03 | Diem: 7 | Domain Pattern 'hot7891.com' | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.sun7891.com # 2026-11-19 22:19:07 | Diem: 7 | Domain Pattern 'sun7891.com' | Tu khoa: cá cược, casino trực tuyến, nổ hũ
-0.0.0.0 www.hitclupv.com # 2026-11-19 22:19:36 | Diem: 2 | Tu khoa: nổ hũ, sòng bạc
-0.0.0.0 www.gem-winv.com # 2026-11-19 22:19:39 | Diem: 4 | Tu khoa: cá cược, nổ hũ, roulette
+0.0.0.0 www.98win76v.com # 2026-11-19 22:21:01 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.99-playv.com # 2026-11-19 22:34:18 | Diem: 1 | Tu khoa: nổ hũ
+0.0.0.0 www.99-win1.com # 2026-11-19 22:35:22 | Diem: 4 | Tu khoa: cá cược, nổ hũ, roulette
+0.0.0.0 www.99ok-vinv.com # 2026-11-19 22:20:28 | Diem: 6 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
+0.0.0.0 www.99oke1.com # 2026-11-19 22:20:52 | Diem: 7 | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.9ki1.com # 2026-11-19 22:19:49 | Diem: 4 | Tu khoa: tài xỉu, nổ hũ, bầu cua
+0.0.0.0 www.acb81.com # 2026-11-19 22:30:54 | Diem: 1 | Tu khoa: nổ hũ
+0.0.0.0 www.acb881.com # 2026-11-19 22:19:49 | Diem: 5 | Domain Pattern 'acb881.com' | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.ae-881.com # 2026-11-19 22:35:23 | Diem: 5 | Domain Pattern 'ae-881.com' | Tu khoa: nổ hũ, sòng bạc
+0.0.0.0 www.alo781.com # 2026-11-19 22:20:52 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.az6681.com # 2026-11-19 22:18:19 | Diem: 9 | Domain Pattern 'az6681.com' | Tu khoa: cá cược, tài xỉu, baccarat
 0.0.0.0 www.b29-clubv.com # 2026-11-19 22:19:39 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.b6661.com # 2026-11-19 22:27:28 | Diem: 1 | Tu khoa: nổ hũ
+0.0.0.0 www.bay-789v.com # 2026-11-19 22:26:54 | Diem: 12 | Domain Pattern 'bay-789v.com' | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.ben-betv.com # 2026-11-19 22:18:45 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.bet-368v.com # 2026-11-19 22:19:53 | Diem: 7 | Domain Pattern 'bet-368v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.bet-789v.com # 2026-11-19 22:28:51 | Diem: 10 | Domain Pattern 'bet-789v.com' | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.bj3881.com # 2026-11-19 22:29:40 | Diem: 6 | Domain Pattern 'bj3881.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.bj391.com # 2026-11-19 22:27:37 | Diem: 4 | Tu khoa: cá cược, nổ hũ, sicbo
+0.0.0.0 www.bj721.com # 2026-11-19 22:27:31 | Diem: 3 | Tu khoa: cá cược, nổ hũ, bầu cua
+0.0.0.0 www.bj891.com # 2026-11-19 22:32:02 | Diem: 4 | Tu khoa: cá cược, tài xỉu, nổ hũ
+0.0.0.0 www.bj9881.com # 2026-11-19 22:27:49 | Diem: 8 | Domain Pattern 'bj9881.com' | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.bong-888v.com # 2026-11-19 22:33:37 | Diem: 7 | Domain Pattern 'bong-888v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.bong888v.com # 2026-11-19 22:30:46 | Diem: 6 | Domain Pattern 'bong888v.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.bong901.com # 2026-11-19 22:28:33 | Diem: 3 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.bongdanet.co # 2026-11-19 17:57:23 | Diem: 2 | Tu khoa: cá cược, kèo nhà cái
+0.0.0.0 www.by88-clubv.com # 2026-11-19 22:28:47 | Diem: 7 | Domain Pattern 'by88-clubv.com' | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.cubet1.com # 2026-11-19 22:26:39 | Diem: 1 | Tu khoa: nổ hũ
+0.0.0.0 www.cwin-05v.com # 2026-11-19 22:30:54 | Diem: 6 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
+0.0.0.0 www.cwin777v.com # 2026-11-19 22:29:58 | Diem: 8 | Domain Pattern 'cwin777v.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.d1681.com # 2026-11-19 22:20:03 | Diem: 8 | Domain Pattern 'd1681.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.debet-2v.com # 2026-11-19 22:33:05 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.ee-881.com # 2026-11-19 22:33:10 | Diem: 5 | Domain Pattern 'ee-881.com' | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.ev-881.com # 2026-11-19 22:20:48 | Diem: 9 | Domain Pattern 'ev-881.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.ev981.com # 2026-11-19 22:33:23 | Diem: 4 | Tu khoa: cá cược, nổ hũ, sicbo
+0.0.0.0 www.f1881.com # 2026-11-19 22:20:40 | Diem: 9 | Domain Pattern 'f1881.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.f6661.com # 2026-11-19 22:32:01 | Diem: 3 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.fb681.com # 2026-11-19 22:17:40 | Diem: 6 | Domain Pattern 'fb681.com' | Tu khoa: nổ hũ, nhà cái uy tín, sòng bạc
+0.0.0.0 www.ff1681.com # 2026-11-19 22:19:47 | Diem: 6 | Domain Pattern 'ff1681.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.five-888v.com # 2026-11-19 22:18:04 | Diem: 9 | Domain Pattern 'five-888v.com' | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.flickr.com # 2026-11-19 22:33:01 | Diem: 1 | Tu khoa: cá cược
+0.0.0.0 www.fv8881.com # 2026-11-19 22:35:21 | Diem: 5 | Domain Pattern 'fv8881.com' | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.fv991.com # 2026-11-19 22:32:01 | Diem: 4 | Domain Pattern 'fv991.com' | Tu khoa: nổ hũ
+0.0.0.0 www.g0881.com # 2026-11-19 22:29:47 | Diem: 6 | Domain Pattern 'g0881.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.g1231.com # 2026-11-19 22:34:37 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.g666-winv.com # 2026-11-19 22:30:56 | Diem: 2 | Tu khoa: nổ hũ, sòng bạc
+0.0.0.0 www.ga-651.com # 2026-11-19 22:35:37 | Diem: 5 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
+0.0.0.0 www.ga1021.com # 2026-11-19 22:18:53 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.ga261.com # 2026-11-19 22:25:25 | Diem: 4 | Tu khoa: baccarat, nổ hũ, roulette
+0.0.0.0 www.ga3301.com # 2026-11-19 22:34:35 | Diem: 6 | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.ga431.com # 2026-11-19 22:25:39 | Diem: 7 | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.ga4561.com # 2026-11-19 22:26:40 | Diem: 3 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.ga461.com # 2026-11-19 22:27:50 | Diem: 6 | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.ga651.com # 2026-11-19 22:28:43 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.ga6661.com # 2026-11-19 22:30:59 | Diem: 3 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.ga671.com # 2026-11-19 22:18:48 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.ga721.com # 2026-11-19 22:19:53 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.ga841.com # 2026-11-19 22:18:51 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.ga921.com # 2026-11-19 22:31:17 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.game-88iv.com # 2026-11-19 22:27:43 | Diem: 6 | Domain Pattern 'game-88iv.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.gem-winv.com # 2026-11-19 22:19:39 | Diem: 4 | Tu khoa: cá cược, nổ hũ, roulette
+0.0.0.0 www.gk991.com # 2026-11-19 22:18:51 | Diem: 9 | Domain Pattern 'gk991.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.go981.com # 2026-11-19 22:34:30 | Diem: 6 | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.god551.com # 2026-11-19 22:30:45 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.good-88v.com # 2026-11-19 22:28:58 | Diem: 11 | Domain Pattern 'good-88v.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.good881v.com # 2026-11-19 22:27:29 | Diem: 6 | Domain Pattern 'good881v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.hay-881.com # 2026-11-19 22:30:53 | Diem: 6 | Domain Pattern 'hay-881.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.hay291.com # 2026-11-19 22:25:38 | Diem: 6 | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.hb-881.com # 2026-11-19 22:28:58 | Diem: 9 | Domain Pattern 'hb-881.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.hello888v.com # 2026-11-19 22:29:40 | Diem: 6 | Domain Pattern 'hello888v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.hi88-vipv.com # 2026-11-19 22:31:46 | Diem: 7 | Domain Pattern 'hi88-vipv.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.hip-clubv.com # 2026-11-19 22:19:51 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.hit881.com # 2026-11-19 22:20:58 | Diem: 8 | Domain Pattern 'hit881.com' | Tu khoa: baccarat, casino trực tuyến, nổ hũ
+0.0.0.0 www.hitclupv.com # 2026-11-19 22:19:36 | Diem: 2 | Tu khoa: nổ hũ, sòng bạc
+0.0.0.0 www.hot7891.com # 2026-11-19 22:19:03 | Diem: 7 | Domain Pattern 'hot7891.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.hu-bet1.com # 2026-11-19 22:26:32 | Diem: 2 | Tu khoa: nổ hũ, sòng bạc
+0.0.0.0 www.i9bet1001.com # 2026-11-19 22:20:40 | Diem: 4 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.i9bet1511.com # 2026-11-19 22:19:02 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.i9bet581.com # 2026-11-19 22:31:07 | Diem: 4 | Tu khoa: cá cược, nổ hũ, nhà cái uy tín
+0.0.0.0 www.i9bet58v.com # 2026-11-19 22:18:54 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.iwinclubv.com # 2026-11-19 22:34:16 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.j1681.com # 2026-11-19 22:32:16 | Diem: 6 | Domain Pattern 'j1681.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.j88-com1.com # 2026-11-19 22:33:28 | Diem: 7 | Domain Pattern 'j88-com1.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.j88-comv.com # 2026-11-19 22:26:32 | Diem: 7 | Domain Pattern 'j88-comv.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.j88-lovev.com # 2026-11-19 22:21:28 | Diem: 7 | Domain Pattern 'j88-lovev.com' | Tu khoa: cá cược, nổ hũ, roulette
+0.0.0.0 www.j8881.com # 2026-11-19 22:20:34 | Diem: 5 | Domain Pattern 'j8881.com' | Tu khoa: nổ hũ, sòng bạc
+0.0.0.0 www.j88dl1.com # 2026-11-19 22:27:37 | Diem: 6 | Domain Pattern 'j88dl1.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.j88vip1v.com # 2026-11-19 22:28:55 | Diem: 7 | Domain Pattern 'j88vip1v.com' | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.jun88-vipv.com # 2026-11-19 22:29:58 | Diem: 7 | Domain Pattern 'jun88-vipv.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.k88-winv.com # 2026-11-19 22:30:09 | Diem: 8 | Domain Pattern 'k88-winv.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.k89bet1.com # 2026-11-19 22:26:47 | Diem: 5 | Tu khoa: baccarat, casino trực tuyến, nổ hũ
+0.0.0.0 www.kangen-k8v.com # 2026-11-19 22:21:24 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.keo881.com # 2026-11-19 22:19:46 | Diem: 9 | Domain Pattern 'keo881.com' | Tu khoa: tài xỉu, baccarat, casino trực tuyến
+0.0.0.0 www.keobongday.com # 2026-11-19 17:57:42 | Diem: 4 | Tu khoa: kèo nhà cái, tài xỉu, nhà cái uy tín, kèo châu á
+0.0.0.0 www.ku39331.com # 2026-11-19 22:20:32 | Diem: 6 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
+0.0.0.0 www.ku7891.com # 2026-11-19 22:35:27 | Diem: 6 | Domain Pattern 'ku7891.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.kubet3933v.com # 2026-11-19 22:29:50 | Diem: 3 | Tu khoa: baccarat, nổ hũ, sòng bạc
+0.0.0.0 www.kubet77v.com # 2026-11-19 22:20:40 | Diem: 9 | Domain Pattern 'kubet77v.com' | Tu khoa: tài xỉu, baccarat, casino trực tuyến
+0.0.0.0 www.kubet88v.com # 2026-11-19 22:28:43 | Diem: 4 | Domain Pattern 'kubet88v.com' | Tu khoa: nổ hũ
+0.0.0.0 www.kuwin24v.com # 2026-11-19 22:29:54 | Diem: 4 | Tu khoa: cá cược, nổ hũ, hoàn trả không giới hạn
+0.0.0.0 www.kv8881.com # 2026-11-19 22:30:48 | Diem: 6 | Domain Pattern 'kv8881.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.kv9991.com # 2026-11-19 22:18:11 | Diem: 5 | Domain Pattern 'kv9991.com' | Tu khoa: nổ hũ, sòng bạc
+0.0.0.0 www.link-188v.com # 2026-11-19 22:32:15 | Diem: 6 | Domain Pattern 'link-188v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.link-252v.com # 2026-11-19 22:20:48 | Diem: 6 | Domain Pattern 'link-252v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.link-333v.com # 2026-11-19 22:32:17 | Diem: 2 | Tu khoa: nổ hũ, roulette
+0.0.0.0 www.link-337v.com # 2026-11-19 22:35:39 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.link-90v.com # 2026-11-19 22:33:40 | Diem: 8 | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.link-948v.com # 2026-11-19 22:33:17 | Diem: 4 | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.link-m88v.com # 2026-11-19 22:19:40 | Diem: 8 | Domain Pattern 'link-m88v.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.link929v.com # 2026-11-19 22:28:46 | Diem: 5 | Tu khoa: cá cược, tài xỉu, nổ hũ
+0.0.0.0 www.luck8882v.com # 2026-11-19 22:29:35 | Diem: 6 | Domain Pattern 'luck8882v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.lucky-88v.com # 2026-11-19 22:28:36 | Diem: 11 | Domain Pattern 'lucky-88v.com' | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.luckyvnv.com # 2026-11-19 22:20:38 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.max881.com # 2026-11-19 22:28:55 | Diem: 8 | Domain Pattern 'max881.com' | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.mcw-191.com # 2026-11-19 22:27:51 | Diem: 3 | Tu khoa: baccarat, nổ hũ, sòng bạc
+0.0.0.0 www.mcw-678v.com # 2026-11-19 22:31:10 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.mcw11881.com # 2026-11-19 22:20:57 | Diem: 4 | Domain Pattern 'mcw11881.com' | Tu khoa: nổ hũ
+0.0.0.0 www.mcw331.com # 2026-11-19 22:19:54 | Diem: 3 | Tu khoa: nổ hũ, roulette, sòng bạc
+0.0.0.0 www.mcw441.com # 2026-11-19 22:20:35 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.mcw8881.com # 2026-11-19 22:25:29 | Diem: 6 | Domain Pattern 'mcw8881.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.nk-881.com # 2026-11-19 22:18:58 | Diem: 8 | Domain Pattern 'nk-881.com' | Tu khoa: baccarat, casino trực tuyến, nổ hũ
+0.0.0.0 www.nk88-betv.com # 2026-11-19 22:31:22 | Diem: 8 | Domain Pattern 'nk88-betv.com' | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.no-hu1.com # 2026-11-19 22:30:59 | Diem: 5 | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.nohu-52v.com # 2026-11-19 22:28:48 | Diem: 10 | Domain Pattern 'nohu-52v.com' | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.nohu-88v.com # 2026-11-19 22:26:27 | Diem: 8 | Domain Pattern 'nohu-88v.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.nohu-90v.com # 2026-11-19 22:18:59 | Diem: 5 | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.nohu651.com # 2026-11-19 22:34:26 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.ok-kingv.com # 2026-11-19 22:34:23 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.ok3561.com # 2026-11-19 22:25:34 | Diem: 4 | Tu khoa: cá cược, nổ hũ, bầu cua
+0.0.0.0 www.ok365vipv.com # 2026-11-19 22:19:45 | Diem: 7 | Domain Pattern 'ok365vipv.com' | Tu khoa: baccarat, nổ hũ, roulette
+0.0.0.0 www.oke-365v.com # 2026-11-19 22:19:01 | Diem: 5 | Domain Pattern 'oke-365v.com' | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.oke91.com # 2026-11-19 22:29:55 | Diem: 5 | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.oklavipv.com # 2026-11-19 22:27:43 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.one7891.com # 2026-11-19 22:27:52 | Diem: 8 | Domain Pattern 'one7891.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.pg-661.com # 2026-11-19 22:19:48 | Diem: 4 | Tu khoa: cá cược, tài xỉu, nổ hũ
+0.0.0.0 www.pg-881.com # 2026-11-19 22:27:51 | Diem: 9 | Domain Pattern 'pg-881.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.pg-991.com # 2026-11-19 22:32:17 | Diem: 7 | Domain Pattern 'pg-991.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.pgsharp1.com # 2026-11-19 22:29:59 | Diem: 7 | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.pgsharpv.com # 2026-11-19 22:33:09 | Diem: 5 | Tu khoa: baccarat, nổ hũ, roulette
+0.0.0.0 www.pk3451.com # 2026-11-19 22:33:12 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.qh-881.com # 2026-11-19 22:27:47 | Diem: 10 | Domain Pattern 'qh-881.com' | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.qh88881.com # 2026-11-19 22:33:26 | Diem: 8 | Domain Pattern 'qh88881.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.quocte88v.com # 2026-11-19 22:28:58 | Diem: 8 | Domain Pattern 'quocte88v.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.r1681.com # 2026-11-19 22:34:30 | Diem: 9 | Domain Pattern 'r1681.com' | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.ray-betv.com # 2026-11-19 22:18:50 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.rr88221.com # 2026-11-19 22:33:09 | Diem: 6 | Domain Pattern 'rr88221.com' | Tu khoa: nổ hũ, roulette, sòng bạc
+0.0.0.0 www.rr88bet1.com # 2026-11-19 22:18:51 | Diem: 4 | Domain Pattern 'rr88bet1.com' | Tu khoa: nổ hũ
+0.0.0.0 www.rr88betv.com # 2026-11-19 22:20:48 | Diem: 6 | Domain Pattern 'rr88betv.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.s666-mev.com # 2026-11-19 22:31:08 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.sao-789v.com # 2026-11-19 22:31:10 | Diem: 8 | Domain Pattern 'sao-789v.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.sao-winv.com # 2026-11-19 22:20:55 | Diem: 5 | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.shbet881.com # 2026-11-19 22:33:14 | Diem: 6 | Domain Pattern 'shbet881.com' | Tu khoa: cá cược, nổ hũ, xóc đĩa
+0.0.0.0 www.shbet88v.com # 2026-11-19 22:33:33 | Diem: 8 | Domain Pattern 'shbet88v.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.shbet999v.com # 2026-11-19 22:30:56 | Diem: 6 | Domain Pattern 'shbet999v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.sky8881.com # 2026-11-19 22:30:46 | Diem: 7 | Domain Pattern 'sky8881.com' | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.so-xo-888v.com # 2026-11-19 22:27:33 | Diem: 8 | Domain Pattern 'so-xo-888v.com' | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.sodo881.com # 2026-11-19 22:26:26 | Diem: 5 | Domain Pattern 'sodo881.com' | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.soxo-66v.com # 2026-11-19 22:31:54 | Diem: 4 | Tu khoa: cá cược, nổ hũ, roulette
+0.0.0.0 www.st6st66.com # 2026-11-19 22:33:04 | Diem: 2 | Tu khoa: cá cược, casino trực tuyến
+0.0.0.0 www.sun7891.com # 2026-11-19 22:19:07 | Diem: 7 | Domain Pattern 'sun7891.com' | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.suncity88v.com # 2026-11-19 22:30:09 | Diem: 5 | Domain Pattern 'suncity88v.com' | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.sunwwinv.com # 2026-11-19 22:30:44 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.sv3381.com # 2026-11-19 22:28:33 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.sv3391.com # 2026-11-19 22:33:23 | Diem: 4 | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.sv3451.com # 2026-11-19 22:27:44 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.sv3571.com # 2026-11-19 22:34:32 | Diem: 5 | Tu khoa: cá cược, nổ hũ, roulette
+0.0.0.0 www.sv3661.com # 2026-11-19 22:28:46 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.sv6661.com # 2026-11-19 22:26:40 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.t1681.com # 2026-11-19 22:30:01 | Diem: 10 | Domain Pattern 't1681.com' | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.ta281.com # 2026-11-19 22:27:39 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.tai-kubetv.com # 2026-11-19 22:33:24 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.tg-881.com # 2026-11-19 22:20:39 | Diem: 9 | Domain Pattern 'tg-881.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
+0.0.0.0 www.tha-betv.com # 2026-11-19 22:20:54 | Diem: 5 | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.thabet88v.com # 2026-11-19 22:35:37 | Diem: 9 | Domain Pattern 'thabet88v.com' | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.tksv388v.com # 2026-11-19 22:29:47 | Diem: 4 | Domain Pattern 'tksv388v.com' | Tu khoa: nổ hũ
+0.0.0.0 www.tr88-betv.com # 2026-11-19 22:33:30 | Diem: 7 | Domain Pattern 'tr88-betv.com' | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.ty-le-888v.com # 2026-11-19 22:25:34 | Diem: 9 | Domain Pattern 'ty-le-888v.com' | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.u888-vipv.com # 2026-11-19 22:21:02 | Diem: 6 | Domain Pattern 'u888-vipv.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.vao-bongv.com # 2026-11-19 22:28:32 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.vao-w88v.com # 2026-11-19 22:27:29 | Diem: 6 | Domain Pattern 'vao-w88v.com' | Tu khoa: tài xỉu, nổ hũ, rồng hổ
+0.0.0.0 www.vaobong88v.com # 2026-11-19 22:30:56 | Diem: 7 | Domain Pattern 'vaobong88v.com' | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.vf-61.com # 2026-11-19 22:34:31 | Diem: 4 | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 www.vf-81.com # 2026-11-19 22:19:59 | Diem: 5 | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.vf6781.com # 2026-11-19 22:35:32 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.vf7891.com # 2026-11-19 22:20:01 | Diem: 11 | Domain Pattern 'vf7891.com' | Tu khoa: cá cược, tài xỉu, baccarat
+0.0.0.0 www.vietjack1.com # 2026-11-19 22:20:04 | Diem: 6 | Tu khoa: tài xỉu, baccarat, nổ hũ
+0.0.0.0 www.vietlottv.com # 2026-11-19 22:35:36 | Diem: 3 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.vin7772v.com # 2026-11-19 22:26:26 | Diem: 6 | Domain Pattern 'vin7772v.com' | Tu khoa: cá cược, nổ hũ, khuyến mãi tân thủ
+0.0.0.0 www.vin881.com # 2026-11-19 22:32:21 | Diem: 6 | Domain Pattern 'vin881.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.vip-661.com # 2026-11-19 22:35:51 | Diem: 6 | Tu khoa: baccarat, casino trực tuyến, nổ hũ
+0.0.0.0 www.vip-win1.com # 2026-11-19 22:30:04 | Diem: 3 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.vm661.com # 2026-11-19 22:19:03 | Diem: 6 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.vn-f888.com # 2026-11-19 22:29:30 | Diem: 5 | Domain Pattern 'vn-f888.com' | Tu khoa: baccarat, roulette
+0.0.0.0 www.vsport1.com # 2026-11-19 22:28:43 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.vty051.com # 2026-11-19 22:29:52 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.vvvwin88v.com # 2026-11-19 22:19:50 | Diem: 6 | Domain Pattern 'vvvwin88v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
+0.0.0.0 www.vwin881.com # 2026-11-19 22:26:44 | Diem: 5 | Domain Pattern 'vwin881.com' | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.win-100v.com # 2026-11-19 22:28:41 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.win-678v.com # 2026-11-19 22:26:53 | Diem: 2 | Tu khoa: cá cược, nổ hũ
+0.0.0.0 www.win8betv.com # 2026-11-19 22:33:17 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
 0.0.0.0 www.x88bet1.com # 2026-11-19 22:19:40 | Diem: 6 | Domain Pattern 'x88bet1.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
 0.0.0.0 www.xo-so-888v.com # 2026-11-19 22:19:40 | Diem: 7 | Domain Pattern 'xo-so-888v.com' | Tu khoa: tài xỉu, nổ hũ, roulette
-0.0.0.0 www.link-m88v.com # 2026-11-19 22:19:40 | Diem: 8 | Domain Pattern 'link-m88v.com' | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.33win681.com # 2026-11-19 22:19:43 | Diem: 8 | Domain Pattern '33win681.com' | Tu khoa: cá cược, nổ hũ, game bài đổi thưởng
-0.0.0.0 www.ok365vipv.com # 2026-11-19 22:19:45 | Diem: 7 | Domain Pattern 'ok365vipv.com' | Tu khoa: baccarat, nổ hũ, roulette
-0.0.0.0 www.868vip1v.com # 2026-11-19 22:19:45 | Diem: 6 | Domain Pattern '868vip1v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.keo881.com # 2026-11-19 22:19:46 | Diem: 9 | Domain Pattern 'keo881.com' | Tu khoa: tài xỉu, baccarat, casino trực tuyến
-0.0.0.0 www.ff1681.com # 2026-11-19 22:19:47 | Diem: 6 | Domain Pattern 'ff1681.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.pg-661.com # 2026-11-19 22:19:48 | Diem: 4 | Tu khoa: cá cược, tài xỉu, nổ hũ
-0.0.0.0 www.acb881.com # 2026-11-19 22:19:49 | Diem: 5 | Domain Pattern 'acb881.com' | Tu khoa: cá cược, nổ hũ
-0.0.0.0 www.9ki1.com # 2026-11-19 22:19:49 | Diem: 4 | Tu khoa: tài xỉu, nổ hũ, bầu cua
-0.0.0.0 www.vvvwin88v.com # 2026-11-19 22:19:50 | Diem: 6 | Domain Pattern 'vvvwin88v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.hip-clubv.com # 2026-11-19 22:19:51 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.bet-368v.com # 2026-11-19 22:19:53 | Diem: 7 | Domain Pattern 'bet-368v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.ga721.com # 2026-11-19 22:19:53 | Diem: 2 | Tu khoa: cá cược, nổ hũ
-0.0.0.0 www.mcw331.com # 2026-11-19 22:19:54 | Diem: 3 | Tu khoa: nổ hũ, roulette, sòng bạc
-0.0.0.0 www.vf-81.com # 2026-11-19 22:19:59 | Diem: 5 | Tu khoa: cá cược, tài xỉu, baccarat
-0.0.0.0 www.888i1.com # 2026-11-19 22:19:59 | Diem: 6 | Domain Pattern '888i1.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.vf7891.com # 2026-11-19 22:20:01 | Diem: 11 | Domain Pattern 'vf7891.com' | Tu khoa: cá cược, tài xỉu, baccarat
-0.0.0.0 www.d1681.com # 2026-11-19 22:20:03 | Diem: 8 | Domain Pattern 'd1681.com' | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.vietjack1.com # 2026-11-19 22:20:04 | Diem: 6 | Tu khoa: tài xỉu, baccarat, nổ hũ
-0.0.0.0 www.zbet-betv.com # 2026-11-19 22:20:06 | Diem: 4 | Tu khoa: cá cược, casino trực tuyến, nổ hũ
-0.0.0.0 www.33win01v.com # 2026-11-19 22:20:07 | Diem: 7 | Tu khoa: tài xỉu, nổ hũ, bầu cua
-0.0.0.0 www.99ok-vinv.com # 2026-11-19 22:20:28 | Diem: 6 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
-0.0.0.0 www.ku39331.com # 2026-11-19 22:20:32 | Diem: 6 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
-0.0.0.0 www.1133winv.com # 2026-11-19 22:20:33 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.j8881.com # 2026-11-19 22:20:34 | Diem: 5 | Domain Pattern 'j8881.com' | Tu khoa: nổ hũ, sòng bạc
-0.0.0.0 www.mcw441.com # 2026-11-19 22:20:35 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.123b123bv.com # 2026-11-19 22:20:37 | Diem: 2 | Tu khoa: cá cược, nổ hũ
-0.0.0.0 www.luckyvnv.com # 2026-11-19 22:20:38 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.tg-881.com # 2026-11-19 22:20:39 | Diem: 9 | Domain Pattern 'tg-881.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
-0.0.0.0 www.i9bet1001.com # 2026-11-19 22:20:40 | Diem: 4 | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.f1881.com # 2026-11-19 22:20:40 | Diem: 9 | Domain Pattern 'f1881.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
-0.0.0.0 www.kubet77v.com # 2026-11-19 22:20:40 | Diem: 9 | Domain Pattern 'kubet77v.com' | Tu khoa: tài xỉu, baccarat, casino trực tuyến
-0.0.0.0 www.ev-881.com # 2026-11-19 22:20:48 | Diem: 9 | Domain Pattern 'ev-881.com' | Tu khoa: cá cược, baccarat, casino trực tuyến
-0.0.0.0 www.rr88betv.com # 2026-11-19 22:20:48 | Diem: 6 | Domain Pattern 'rr88betv.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.link-252v.com # 2026-11-19 22:20:48 | Diem: 6 | Domain Pattern 'link-252v.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.79king2v.com # 2026-11-19 22:20:50 | Diem: 7 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
-0.0.0.0 www.99oke1.com # 2026-11-19 22:20:52 | Diem: 7 | Tu khoa: cá cược, tài xỉu, baccarat
-0.0.0.0 www.alo781.com # 2026-11-19 22:20:52 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.79king78v.com # 2026-11-19 22:20:53 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.tha-betv.com # 2026-11-19 22:20:54 | Diem: 5 | Tu khoa: cá cược, casino trực tuyến, nổ hũ
-0.0.0.0 www.sao-winv.com # 2026-11-19 22:20:55 | Diem: 5 | Tu khoa: cá cược, baccarat, casino trực tuyến
-0.0.0.0 www.mcw11881.com # 2026-11-19 22:20:57 | Diem: 4 | Domain Pattern 'mcw11881.com' | Tu khoa: nổ hũ
-0.0.0.0 www.hit881.com # 2026-11-19 22:20:58 | Diem: 8 | Domain Pattern 'hit881.com' | Tu khoa: baccarat, casino trực tuyến, nổ hũ
 0.0.0.0 www.xs-301.com # 2026-11-19 22:20:58 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.98win76v.com # 2026-11-19 22:21:01 | Diem: 3 | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.u888-vipv.com # 2026-11-19 22:21:02 | Diem: 6 | Domain Pattern 'u888-vipv.com' | Tu khoa: cá cược, nổ hũ, sòng bạc
-0.0.0.0 www.kangen-k8v.com # 2026-11-19 22:21:24 | Diem: 5 | Tu khoa: cá cược, baccarat, nổ hũ
-0.0.0.0 www.j88-lovev.com # 2026-11-19 22:21:28 | Diem: 7 | Domain Pattern 'j88-lovev.com' | Tu khoa: cá cược, nổ hũ, roulette
-0.0.0.0 ipphone.vn # 2026-11-19 15:23:41 | Diem: 2 | Tu khoa: cá cược, tài xỉu
-0.0.0.0 daga33.bet # 2026-11-19 15:23:45 | Diem: 2 | Tu khoa: baccarat, live casino
+0.0.0.0 www.xs-661.com # 2026-11-19 22:32:13 | Diem: 4 | Tu khoa: cá cược, baccarat, nổ hũ
+0.0.0.0 www.xs-mb1.com # 2026-11-19 22:35:24 | Diem: 4 | Tu khoa: baccarat, nổ hũ, roulette
+0.0.0.0 www.xs3601.com # 2026-11-19 22:29:47 | Diem: 3 | Tu khoa: cá cược, nổ hũ, link vào không bị chặn
+0.0.0.0 www.xs5351.com # 2026-11-19 22:29:39 | Diem: 6 | Tu khoa: tài xỉu, baccarat, casino trực tuyến
+0.0.0.0 www.zbet-betv.com # 2026-11-19 22:20:06 | Diem: 4 | Tu khoa: cá cược, casino trực tuyến, nổ hũ
+0.0.0.0 x8.club # 2026-11-19 22:35:12 | Diem: 9 | Tu khoa: cá cược, tài xỉu, tài xỉu md5
+0.0.0.0 yo88.win # 2026-11-19 22:35:13 | Diem: 4 | Domain Pattern 'yo88.win' | Tu khoa: tài xỉu
+0.0.0.0 z888vip.com # 2026-11-19 22:33:57 | Diem: 3 | Domain Pattern 'z888vip.com'
