@@ -1,6 +1,6 @@
 # ihategambling
 
-Autonomous multi-bot web crawler and DNS/hosts blocklist generator for online gambling, betting, and fraudulent gaming portals.
+Autonomous multi-bot web crawler and DNS/hosts blocklist generator for online gambling, betting, and Cambodia-based cyber scam operations (fraud compounds, fake job traps, task scams, and fake investment portals).
 
 Designed for low-resource environments (e.g. ARM single-board computers, TV boxes like Amlogic S905X with 1-2GB RAM) using minimal CPU and memory (< 50MB RAM).
 
@@ -8,12 +8,14 @@ Designed for low-resource environments (e.g. ARM single-board computers, TV boxe
 
 ## Features
 
-- **Search Engine Scraping**: Discovers emerging gambling portals and mirror networks directly from search engine queries without requiring paid APIs or encountering CAPTCHAs.
-- **Domain Heuristics**: Automatically detects gambling naming patterns (common English prefixes combined with numbers such as `88`, `77`, `68`, `79`, `388`, `789`, `999`...).
-- **Deep Link Harvesting**: Crawls incoming landing pages and extracts outgoing affiliate / backup mirror links to uncover entire networks of related betting sites.
-- **Content Scoring**: Inspects HTML structure, titles, and body keywords (`cá cược`, `kèo nhà cái`, `tài xỉu`, `baccarat`, `đá gà`, `casino`, `nạp rút 1-1`...) to verify malicious intent.
+- **Search Engine Scraping**: Discovers emerging gambling portals, mirror networks, and Cambodia fake job / task scam traps directly from search engine queries without requiring paid APIs or encountering CAPTCHAs.
+- **Domain Heuristics**: Automatically detects gambling and fraud naming patterns (common English prefixes combined with numbers such as `88`, `77`, `68`, `79`, `388`, `789`, `999`...).
+- **Anti-Cambodia Scam Intelligence**: Scans for patterns related to cross-border scam operations (Bavet, Chrey Thum, Sihanoukville, "việc nhẹ lương cao", fake job telesale traps, and Shopee/TikTok order-grabbing task scams).
+- **Deep Link Harvesting**: Crawls incoming landing pages and extracts outgoing affiliate / backup mirror links to uncover entire networks of related betting and scam sites.
+- **Content Scoring**: Inspects HTML structure, titles, and body keywords (`cá cược`, `kèo nhà cái`, `tài xỉu`, `baccarat`, `đá gà`, `casino`, `việc làm campuchia`, `nhiệm vụ nhận hoa hồng`...) to verify malicious intent.
 - **Free Proxy Rotation**: Built-in dynamic fetcher and rotator pulling thousands of public HTTP proxies with automatic fallback.
 - **Multi-Bot Concurrency**: Configurable multithreaded workers (`--threads N`).
+- **Automated Cloud Workflows**: Continuous execution and automatic domain updates via scheduled GitHub Actions.
 - **System-level Protection**: Exports standard `0.0.0.0 domain` format compatible with `/etc/hosts`, AdGuard Home, Pi-hole, and DNSmasq.
 
 ---

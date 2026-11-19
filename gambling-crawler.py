@@ -62,7 +62,14 @@ BASE_SEARCH_TERMS = [
     "lô đề online 1 ăn 99", "đánh số đề miền bắc siêu tốc", "soi cầu lô đề 3 miền vip",
     # Khuyen mai & Link du phong
     "link vào không bị chặn", "nhà cái tặng tiền trải nghiệm", "đăng ký nhận 88k miễn phí",
-    "tải app apk ios", "code tân thủ 100k", "nhà cái uy tín nhất việt nam"
+    "tải app apk ios", "code tân thủ 100k", "nhà cái uy tín nhất việt nam",
+    # Bay viec lam & Lua dao Campuchia (Bavet, Chrey Thum, Sihanoukville)
+    "việc làm campuchia lương cao", "tuyển dụng casino bavet", "tuyển cskh campuchia bao ăn ở",
+    "việc nhẹ lương cao mộc bài", "tuyển telesale campuchia không cần kinh nghiệm", "tuyển dụng casino sihanoukville",
+    "việc làm mộc bài tây ninh lương 30 triệu", "tuyển nhân viên văn phòng campuchia",
+    # Lua dao nhiem vu / Giat don / San tai chinh ao
+    "làm nhiệm vụ nhận hoa hồng telegram", "app giật đơn shopee ảo", "nạp tiền làm nhiệm vụ hoàn tiền",
+    "đầu tư sinh lời 30% mỗi ngày", "sàn chứng khoán quốc tế uy tín rút tiền nhanh", "tuyển cộng tác viên giật đơn online"
 ]
 
 # Bo tu khoa phan tich chuyen sau trong ma HTML
@@ -77,7 +84,14 @@ GAMBLING_INDICATORS = [
     # Tu khoa thuong hieu & link vao
     "link vào kubet", "link vào 789bet", "link vào shbet", "nhà cái uy tín", "cược xiên", "kèo châu á",
     "sòng bạc", "live casino", "soi kèo", "game tài xỉu", "sảnh sexy gaming", "sảnh evolution",
-    "đại lý cá cược", "tải app apk ios", "link vào không bị chặn"
+    "đại lý cá cược", "tải app apk ios", "link vào không bị chặn",
+    # Dau hieu bay viec lam & lua dao Campuchia
+    "việc làm campuchia", "việc nhẹ lương cao", "casino bavet", "casino chrey thum", "sihanoukville",
+    "mộc bài tây ninh", "tuyển cskh campuchia", "tuyển telesale campuchia", "bao ăn ở campuchia",
+    "xuất cảnh campuchia", "lương 20-30 triệu không cần bằng cấp", "biết gõ máy tính là làm được",
+    # Dau hieu giat don & nhiem vu ao
+    "làm nhiệm vụ nhận hoa hồng", "giật đơn nhận tiền", "nạp tiền làm nhiệm vụ", "nhiệm vụ shopee",
+    "nhiệm vụ tiktok", "hoàn tiền nhiệm vụ", "đầu tư sinh lời mỗi ngày", "sàn giao dịch chứng khoán quốc tế"
 ]
 
 # Danh sach domain uy tin can bo qua (tranh false positive)
@@ -232,9 +246,12 @@ class ContinuousGamblingCrawler:
         if domain_match:
             score += 3
 
-        # Danh gia co phai trang ca do khong
+        # Danh gia co phai trang ca do hoac lua dao khong
         is_gambling = (score >= 2) or bool(domain_match and score >= 1) or any(
-            kw in title.lower() for kw in ["nhà cái", "cá cược", "tài xỉu", "casino", "baccarat", "xóc đĩa", "đá gà"]
+            kw in title.lower() for kw in [
+                "nhà cái", "cá cược", "tài xỉu", "casino", "baccarat", "xóc đĩa", "đá gà",
+                "việc làm campuchia", "việc nhẹ lương cao", "làm nhiệm vụ", "giật đơn"
+            ]
         )
 
         if is_gambling:
@@ -265,7 +282,22 @@ class ContinuousGamblingCrawler:
                                 self.target_queue.add(link)
 
     def generate_dynamic_query(self):
-        """Sinh tu khoa tim kiem ngau nhien ket hop ten tieng Anh va con so (88, 77, ...)"""
+        """Sinh tu khoa tim kiem ngau nhien ket hop ca do va lua dao Campuchia"""
+        if random.random() < 0.35:
+            scam_queries = [
+                "tuyển dụng việc làm campuchia lương cao bao ăn ở",
+                "việc nhẹ lương cao mộc bài tây ninh",
+                "tuyển cskh casino bavet lương 30 triệu",
+                "tuyển dụng casino sihanoukville campuchia",
+                "làm nhiệm vụ telegram kiếm tiền hoa hồng",
+                "app giật đơn shopee ảo nạp tiền",
+                "đầu tư tài chính sinh lời mỗi ngày cam kết",
+                "tuyển cộng tác viên làm nhiệm vụ tiki shopee",
+                "việc làm casino chrey thum campuchia",
+                "tuyển telesale làm việc tại bavet campuchia"
+            ]
+            return random.choice(scam_queries)
+
         brand = random.choice(BRAND_PREFIXES) + random.choice(BRAND_NUMBERS)
         base = random.choice(BASE_SEARCH_TERMS)
         variations = [

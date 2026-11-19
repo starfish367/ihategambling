@@ -16,18 +16,24 @@ from concurrent.futures import ThreadPoolExecutor
 
 # Danh sach feed blacklist co bac / ca do duoc cap nhat lien tuc tu cong dong
 COMMUNITY_FEEDS = [
+    # hostsVN - Chuyen chan phishing, lua dao viec lam va co bac tai Viet Nam & Campuchia
+    "https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts",
     # StevenBlack Gambling list
     "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-only/hosts",
     # HaGeZi Gambling Blocklist (onlydomains)
     "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling-onlydomains.txt"
 ]
 
-# Bo tu khoa nhan dien trang web ca do, co bac (tieng Viet & quoc te)
+# Bo tu khoa nhan dien trang web ca do, co bac & lua dao Campuchia
 GAMBLING_KEYWORDS = [
     "cá cược", "cá độ", "kèo nhà cái", "tài xỉu", "baccarat", "casino trực tuyến",
     "đá gà thomo", "lô đề online", "bắn cá đổi thưởng", "nổ hũ", "game bài đổi thưởng",
     "link vào kubet", "link vào 789bet", "nhà cái uy tín", "nạp rút 1-1", "khuyến mãi tân thủ",
-    "online casino", "sports betting", "slot games", "live baccarat", "roulette"
+    "online casino", "sports betting", "slot games", "live baccarat", "roulette",
+    # Lua dao Campuchia & Bay viec lam
+    "việc làm campuchia", "việc nhẹ lương cao", "casino bavet", "casino chrey thum", "sihanoukville",
+    "tuyển cskh campuchia", "tuyển telesale campuchia", "bao ăn ở campuchia", "làm nhiệm vụ nhận hoa hồng",
+    "giật đơn", "nạp tiền làm nhiệm vụ", "nhiệm vụ shopee"
 ]
 
 OUTPUT_HOSTS_FILE = os.path.expanduser("~/gambling_hosts.txt")
