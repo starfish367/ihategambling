@@ -270,12 +270,16 @@ class ContinuousGamblingCrawler:
         ]
         return random.choice(variations)
 
-    def run_continuous(self):
+    def run_continuous(self, max_loops=None):
         self.log(f"Khoi dong {self.max_workers} bot chay cao du lieu lien tuc...")
         self.fetch_free_proxies()
 
         loop_count = 0
         while True:
+            if max_loops and loop_count >= max_loops:
+                self.log(f"Da hoan thanh {max_loops} vong quet. Ket thuc tien trinh.")
+                break
+
             loop_count += 1
             self.fetch_free_proxies()
 
@@ -307,6 +311,7 @@ def main():
     output_path = "/home/a/suspicious_domains.txt"
     threads = 12
     use_proxy = True
+    rounds = None
 
     if "--output" in args:
         idx = args.index("--output")
@@ -318,11 +323,16 @@ def main():
         if len(args) > idx + 1:
             threads = int(args[idx + 1])
 
+    if "--rounds" in args:
+        idx = args.index("--rounds")
+        if len(args) > idx + 1:
+            rounds = int(args[idx + 1])
+
     if "--no-proxy" in args:
         use_proxy = False
 
     crawler = ContinuousGamblingCrawler(output_file=output_path, max_workers=threads, use_proxy=use_proxy)
-    crawler.run_continuous()
+    crawler.run_continuous(max_loops=rounds)
 
 
 if __name__ == "__main__":
