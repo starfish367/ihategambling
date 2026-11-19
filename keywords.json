@@ -6,12 +6,18 @@
     "macau", "sin", "debet", "oxbet", "five", "red", "sky", "ta88", "lucky",
     "bong", "sbo", "saba", "cmd", "k9", "vg", "v8", "v9", "fa88", "yo88",
     "gem", "may", "bay", "boc", "manclub", "choang", "rio", "nagavip", "fanvip",
-    "bom", "nhat", "loc", "phat", "tuan", "banca", "lode", "daga", "keo"
+    "bom", "nhat", "loc", "phat", "tuan", "banca", "lode", "daga", "keo", "kubet",
+    "jun88", "hi88", "shbet", "f8bet", "new88", "sunwin", "go88", "okvip", "789bet"
   ],
-  "brand_numbers": [
+  "brand_suffixes": [
     "88", "77", "99", "68", "79", "388", "888", "999", "789", "52", "188",
     "66", "365", "123", "247", "11", "22", "33", "86", "6868", "8888", "9999",
-    "9", "8", "6", "7", "39", "79", "12"
+    "01", "02", "03", "04", "05", "2024", "2025", "2026", "vip", "pro", "win", "-vn", "top"
+  ],
+  "high_risk_tlds": [
+    ".vip", ".club", ".win", ".bet", ".top", ".xyz", ".icu", ".buzz", ".life",
+    ".live", ".fun", ".site", ".online", ".cc", ".me", ".link", ".today", ".run",
+    ".space", ".fit", ".rest", ".lol", ".cfd", ".sbs", ".bond", ".app", ".click"
   ],
   "search_queries": [
     "tài xỉu online uy tín",

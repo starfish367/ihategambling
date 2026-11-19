@@ -6,26 +6,47 @@ Designed for low-resource environments (e.g. ARM single-board computers, TV boxe
 
 ---
 
-## Features
+## Architecture & Multi-Signal Risk Engine (100-Point Scale)
 
-- **Search Engine Scraping**: Discovers emerging gambling portals, mirror networks, and Cambodia fake job / task scam traps directly from search engine queries without requiring paid APIs or encountering CAPTCHAs.
-- **Domain Heuristics**: Automatically detects gambling and fraud naming patterns (common English prefixes combined with numbers such as `88`, `77`, `68`, `79`, `388`, `789`, `999`...).
-- **Anti-Cambodia Scam Intelligence**: Scans for patterns related to cross-border scam operations (Bavet, Chrey Thum, Sihanoukville, "việc nhẹ lương cao", fake job telesale traps, and Shopee/TikTok order-grabbing task scams).
-- **Deep Link Harvesting**: Crawls incoming landing pages and extracts outgoing affiliate / backup mirror links to uncover entire networks of related betting and scam sites.
-- **Content Scoring**: Inspects HTML structure, titles, and body keywords (`cá cược`, `kèo nhà cái`, `tài xỉu`, `baccarat`, `đá gà`, `casino`, `việc làm campuchia`, `nhiệm vụ nhận hoa hồng`...) to verify malicious intent.
-- **Free Proxy Rotation**: Built-in dynamic fetcher and rotator pulling thousands of public HTTP proxies with automatic fallback.
-- **Multi-Bot Concurrency**: Configurable multithreaded workers (`--threads N`).
-- **Automated Cloud Workflows**: Continuous execution and automatic domain updates via scheduled GitHub Actions.
-- **System-level Protection**: Exports standard `0.0.0.0 domain` format compatible with `/etc/hosts`, AdGuard Home, Pi-hole, and DNSmasq.
+To prevent false positives on legitimate sites while catching cloaked mirrors and satellite redirectors, the system evaluates all candidates against a 100-point multi-signal heuristic model. A domain is flagged only when **Total Score >= 70**:
+
+1. **Page Content (40 points max)**:
+   - Title & Meta Tags (15 pts): Analyzes `<title>`, `<meta name="description">`, and OpenGraph headers for core illegal gambling indicators (`tài xỉu`, `nổ hũ`, `xóc đĩa`, `bắn cá`, `lô đề`, `baccarat`, `kèo nhà cái`, `casino`, `việc làm campuchia`...).
+   - Body Keyword Density (15 pts): Evaluates contextual frequency across verified gambling and task-scam vocabularies.
+   - Native App Downloads (10 pts): Detects direct `.apk` and `.ipa` download packages or installation landing wrappers.
+
+2. **Redirect & Cloaking Behavior (25 points max)**:
+   - HTTP 301/302 Redirect Chains (15 pts): Follows cross-domain hops from cloaked satellite domains to primary betting engines.
+   - JavaScript & Meta-Refresh Evasion (10-15 pts): Regex-based parsing of client-side `window.location` and `meta http-equiv="refresh"` destinations. All identified destinations are dynamically enqueued for recursive analysis.
+
+3. **Domain Heuristics (20 points max)**:
+   - Brand & Number Patterns (12 pts): Detects illegal gaming brands combined with characteristic lucky numbers or evasion years (e.g. `88`, `77`, `68`, `79`, `388`, `789`, `999`, `2024-2026`).
+   - High-Risk Cheap TLDs (8 pts): Correlates with disposable and unverified top-level domains (`.vip`, `.club`, `.win`, `.bet`, `.top`, `.xyz`, `.icu`, `.buzz`, `.cfd`, `.sbs`...).
+
+4. **Infrastructure Signals (15 points max)**:
+   - Deposit Support & Chat Widgets (7 pts): Uncovers embedded Telegram bots, LiveChat, Tawk.to, and Zalo chat gateways.
+   - Reverse-Proxy Headers (4 pts): Identifies Cloudflare fronting and edge caching layers.
+   - SSL Certificate Attributes (4 pts): Direct SSL socket analysis inspecting short-lived or free certificate authorities (Let's Encrypt, ZeroSSL, recent issuances < 60 days).
+
+---
+
+## Ingestion Pipelines
+
+- **Synthetic Domain Generator & DNS Prober**: Programmatically generates brand-number-TLD permutations and verifies active resolutions via asynchronous low-latency DNS lookups before crawling.
+- **Certificate Transparency Logs (`crt.sh`)**: Queries real-time SSL transparency databases to uncover newly registered domain mirrors as soon as certificates are requested.
+- **Anti-Cloaking Mobile User-Agent Engine**: Simulates authentic Vietnamese mobile devices (iOS Safari, Android Chrome) with `vi-VN` locale headers to bypass geo-blocking and desktop cloaking filters.
+- **Search Engine Discovery**: Queries public search indexes for active gambling and cross-border cyber compound campaigns.
+- **Strict Whitelist**: Immune to false alarms on major portals (Google, YouTube, Facebook, Vietnamese news outlets).
 
 ---
 
 ## Project Structure
 
-- `gambling-crawler.py`: Continuous multi-bot crawler with proxy rotation, dynamic queries, and recursive link harvesting.
-- `gambling-blocker.py`: Community blacklist aggregator (pulls over 600k verified domains from HaGeZi, StevenBlack) with an automatic `/etc/hosts` applier.
-- `suspicious_domains.txt`: Output list of newly identified gambling domains.
-- `requirements.txt`: Python package requirements (`requests`, `beautifulsoup4`).
+- `gambling-crawler.py`: Multithreaded continuous crawler featuring the 100-point scoring engine, synthetic generator, crt.sh harvester, and mobile anti-cloaking.
+- `gambling-blocker.py`: Community blacklist aggregator (pulls over 600,000 verified domains from HaGeZi, StevenBlack, and hostsVN) with `/etc/hosts` synchronization.
+- `keywords.json`: Dynamic vocabulary defining brand prefixes, suffixes, high-risk TLDs, and scam indicators.
+- `suspicious_domains.txt`: Output list of verified suspicious domains formatted for DNS sinkholing.
+- `requirements.txt`: Lightweight Python dependencies (`requests`, `beautifulsoup4`).
 
 ---
 
@@ -43,24 +64,19 @@ pip3 install -r requirements.txt
 
 ### 1. Continuous Multi-Bot Crawler (`gambling-crawler.py`)
 
-Run 12 concurrent bots with automatic proxy rotation:
+Run 16 concurrent bots:
 ```bash
-python3 gambling-crawler.py --threads 12 --output suspicious_domains.txt
+python3 gambling-crawler.py --threads 16 --output suspicious_domains.txt
 ```
 
-Run with custom keywords:
+Run in timed batch mode (e.g., 15 minutes):
 ```bash
-python3 gambling-crawler.py --query "tài xỉu online" --threads 8
-```
-
-Run without proxies (direct mode):
-```bash
-python3 gambling-crawler.py --no-proxy --threads 4
+python3 gambling-crawler.py --threads 16 --minutes 15 --output suspicious_domains.txt
 ```
 
 ### 2. Blacklist Aggregator & System Blocker (`gambling-blocker.py`)
 
-Fetch hundreds of thousands of established gambling domains from community feeds:
+Fetch and consolidate external blacklists:
 ```bash
 python3 gambling-blocker.py
 ```
@@ -77,6 +93,15 @@ sudo python3 gambling-blocker.py --apply
 
 ---
 
+## Output Format
+
+Domains verified by the multi-signal engine are appended in standard hosts format:
+```
+0.0.0.0 kubetvip.lol # 2026-11-19 23:12:37 | Diem: 86/100 (ND:40, CH:15, TM:20, HT:11) | Ly do: Pattern thuong hieu/so co bac, TLD rui ro cao, HTTP Redirect sang m.meslot202.com, Title/Meta: bắn cá, Body kw (13), Tải bản cài APK/IPA, Widget CSKH/Telegram, Cloudflare Proxy
+```
+
+---
+
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+MIT License.
