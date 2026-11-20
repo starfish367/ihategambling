@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 """
 gambling-crawler.py - He thong Crawler da luong chong co bac & lua dao cong nghe cao
-Phien ban toi uu hoa toc do & dong bo tien trinh:
-1. Co che khoa tien trinh doc quyen (Singleton Process Lock - fcntl):
-   - Ngan chan chay 2 script cung luc gay mat dong bo danh sach seen_domains hoac xung dot I/O.
-2. Tien kiem tra TCP Socket sieu toc (Fast TCP Probe - 0.8s):
+Phien ban toi uu hoa toc do, dong bo tien trinh va ghi nhan tong domain da xu ly:
+1. Ghi nhan toan dien tong domain da kiem tra (Total Checked Domains):
+   - Luu set checked_domains de khong bao gio quet lap lai domain cu (tranh lang phi CPU).
+   - Thong ke ro rang 4 nhom: VI PHAM (>=70), NGHI NGO (40-69), An toan (<40), Offline/Chet.
+2. Co che khoa tien trinh doc quyen (Singleton Process Lock - fcntl):
+   - Ngan chan chay 2 script cung luc gay mat dong bo danh sach hoac xung dot ghi file.
+3. Tien kiem tra TCP Socket sieu toc (Fast TCP Probe - 0.8s):
    - Loai bo 95% domain chet / cong dong trong 0.05 - 0.8s, khong lam tac nghen luong bot.
-3. Kiem soat ap luc hang doi (Backpressure Control - maxsize 1500):
+4. Kiem soat ap luc hang doi (Backpressure Control - maxsize 1500):
    - Khong cho phep hang doi phinh len 10.000 URL gay don u va ngap bo nho.
    - Luong Producer chi bom tiep khi hang doi giam xuong duoi 200 URL.
-4. Bang trong so 100 diem & Co che tru diem duong tinh gia (Penalties).
-5. Ghi file nguyen tu voi khoa file cap he dieu hanh (Atomic File Append & flock).
+5. Bang trong so 100 diem & Co che tru diem duong tinh gia (Penalties).
+6. Ghi file nguyen tu voi khoa file cap he dieu hanh (Atomic File Append & flock).
 """
 
 import sys
@@ -197,26 +200,58 @@ class FastAdvancedCrawler:
     def __init__(self, output_file="/home/a/suspicious_domains.txt", max_workers=16, use_proxy=True):
         self.output_file = os.path.abspath(output_file)
         self.suspect_file = os.path.join(os.path.dirname(self.output_file), "suspect_review.txt")
+        self.checked_history_file = os.path.join(os.path.dirname(self.output_file), "checked_domains.txt")
         self.max_workers = max_workers
         self.use_proxy = use_proxy
         self.proxies = []
-        self.seen_domains = set()
-        # Gioi han hang doi 1500 de tranh tran RAM va un tac
+
+        # Danh sach phan loai
+        self.violation_domains = set()
+        self.suspect_domains = set()
+        # Tap hop tat ca domain da kiem tra qua (de khong bao gio kiem tra lai)
+        self.checked_domains = set()
+
+        # Bo dem so luong
+        self.total_checked = 0
+        self.safe_count = 0
+        self.dead_count = 0
+
         self.url_queue = queue.Queue(maxsize=1500)
         self.lock = threading.Lock()
         self.stop_event = threading.Event()
         self.last_proxy_refresh = 0
+        self.last_history_save = 0
 
-        # Load danh sach domain da ghi nhan
-        for fpath in [self.output_file, self.suspect_file]:
-            if os.path.exists(fpath):
-                with open(fpath, "r", encoding="utf-8") as f:
-                    for line in f:
-                        line = line.strip()
-                        if line and not line.startswith("#"):
-                            parts = line.split()
-                            if len(parts) >= 2:
-                                self.seen_domains.add(parts[1].lower())
+        # Load domain da co
+        if os.path.exists(self.output_file):
+            with open(self.output_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith("#"):
+                        parts = line.split()
+                        if len(parts) >= 2:
+                            d = parts[1].lower()
+                            self.violation_domains.add(d)
+                            self.checked_domains.add(d)
+
+        if os.path.exists(self.suspect_file):
+            with open(self.suspect_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    parts = line.replace("#", "").split()
+                    if len(parts) >= 2:
+                        d = parts[1].lower()
+                        self.suspect_domains.add(d)
+                        self.checked_domains.add(d)
+
+        if os.path.exists(self.checked_history_file):
+            with open(self.checked_history_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    d = line.strip().lower()
+                    if d:
+                        self.checked_domains.add(d)
+
+        self.total_checked = len(self.checked_domains)
 
     def log(self, msg):
         now = time.strftime("%H:%M:%S")
@@ -266,7 +301,6 @@ class FastAdvancedCrawler:
         }
 
     def request_get(self, url, timeout=3.5):
-        """HTTP GET toi uu: timeout 3.5s, chi thu proxy khi bi 403 (tranh cho doi 21s)"""
         headers = self.get_mobile_headers()
         try:
             r = requests.get(url, headers=headers, timeout=timeout, allow_redirects=True)
@@ -309,7 +343,6 @@ class FastAdvancedCrawler:
         parsed_orig = urlparse(target_url)
         orig_domain = parsed_orig.netloc.lower().split(":")[0]
         html_raw = response.text
-        html_lower = html_raw.lower()
         soup = BeautifulSoup(html_raw, "html.parser")
 
         # Pre-filter
@@ -338,7 +371,7 @@ class FastAdvancedCrawler:
                 ch_score += 15
                 has_cross_redirect = True
                 reasons.append(f"HTTP Redirect sang {final_domain} (+15d)")
-                if not self.is_whitelisted(final_domain):
+                if not self.is_whitelisted(final_domain) and final_domain not in self.checked_domains:
                     extra_urls_to_crawl.append(response.url)
             else:
                 ch_score += 10
@@ -361,7 +394,7 @@ class FastAdvancedCrawler:
                     ch_score += 15
                     has_cross_redirect = True
                 reasons.append(f"JS/Meta Redirect sang {target_dom} (+15d)")
-                if not self.is_whitelisted(target_dom):
+                if not self.is_whitelisted(target_dom) and target_dom not in self.checked_domains:
                     extra_urls_to_crawl.append(resolved_redir)
             elif ch_score == 0:
                 ch_score += 10
@@ -473,23 +506,40 @@ class FastAdvancedCrawler:
         raw_score = nd_score + ch_score + tm_score + ht_score
         total_score = max(0, min(100, raw_score - penalty_score))
 
-        # Thu hoach link ngoai: gioi han top 3 link de tranh ngap hang doi
-        for a_tag in soup.find_all("a", href=True):
-            href = a_tag["href"].strip()
-            if href.startswith("http"):
-                extra_urls_to_crawl.append(href)
-                if len(extra_urls_to_crawl) >= 3:
-                    break
+        # Thu hoach link ngoai: chi thu hoach neu trang dang ngo hoac vi pham
+        if total_score >= 40:
+            for a_tag in soup.find_all("a", href=True):
+                href = a_tag["href"].strip()
+                if href.startswith("http"):
+                    extra_urls_to_crawl.append(href)
+                    if len(extra_urls_to_crawl) >= 3:
+                        break
 
         return total_score, nd_score, ch_score, tm_score, ht_score, penalty_score, reasons, extra_urls_to_crawl
 
     def atomic_append_file(self, filepath, line):
-        """Ghi file nguyen tu voi khoa file cap he dieu hanh (flock)"""
         with open(filepath, "a", encoding="utf-8") as f:
             fcntl.flock(f, fcntl.LOCK_EX)
             f.write(line)
             f.flush()
             fcntl.flock(f, fcntl.LOCK_UN)
+
+    def save_checked_history(self):
+        """Dinh ky luu tap hop checked_domains de khoi dong lai khong bi trung lap"""
+        now = time.time()
+        if now - self.last_history_save < 60:
+            return
+        with self.lock:
+            self.last_history_save = now
+            doms = list(self.checked_domains)
+        try:
+            with open(self.checked_history_file, "w", encoding="utf-8") as f:
+                fcntl.flock(f, fcntl.LOCK_EX)
+                for d in doms[-30000:]:
+                    f.write(f"{d}\n")
+                fcntl.flock(f, fcntl.LOCK_UN)
+        except Exception:
+            pass
 
     def synthetic_generator_thread(self):
         """Luong sinh to hop ten mien - Chi sinh khi hang doi < 200 URL (Chong ngap)"""
@@ -506,18 +556,23 @@ class FastAdvancedCrawler:
                     s = random.choice(suffixes)
                     t = random.choice(tlds)
                     domain_cand = f"{p}{s}{t}".lower()
-                    if domain_cand not in self.seen_domains and not self.is_whitelisted(domain_cand):
+                    if domain_cand not in self.checked_domains and not self.is_whitelisted(domain_cand):
                         batch.append(domain_cand)
 
                 resolved_count = 0
                 for cand in batch:
-                    # Probe nhanh TCP port 443 truoc khi day vao hang doi
                     if fast_tcp_probe(cand, timeout=0.8):
                         try:
                             self.url_queue.put_nowait(f"https://{cand}")
                             resolved_count += 1
                         except queue.Full:
                             break
+                    else:
+                        with self.lock:
+                            self.checked_domains.add(cand)
+                            self.dead_count += 1
+                            self.total_checked += 1
+
                 if resolved_count > 0:
                     self.log(f"[Synthetic] Nap {resolved_count} domain to hop CO PHAN HOI TCP vao hang doi.")
                 time.sleep(1.5)
@@ -531,7 +586,7 @@ class FastAdvancedCrawler:
         idx = 0
 
         while not self.stop_event.is_set():
-            if self.url_queue.qsize() < 400:
+            if self.url_queue.qsize() < 300:
                 brand = key_brands[idx % len(key_brands)]
                 idx += 1
                 try:
@@ -544,13 +599,18 @@ class FastAdvancedCrawler:
                             nv = item.get("name_value", "")
                             for line in nv.splitlines():
                                 dom = line.strip().lstrip("*.").lower()
-                                if dom and dom not in self.seen_domains and not self.is_whitelisted(dom):
+                                if dom and dom not in self.checked_domains and not self.is_whitelisted(dom):
                                     if fast_tcp_probe(dom, timeout=0.8):
                                         try:
                                             self.url_queue.put_nowait(f"https://{dom}")
                                             added += 1
                                         except queue.Full:
                                             break
+                                    else:
+                                        with self.lock:
+                                            self.checked_domains.add(dom)
+                                            self.dead_count += 1
+                                            self.total_checked += 1
                         if added > 0:
                             self.log(f"[crt.sh] Phat hien {added} domain moi co web server song ({brand}) -> Nap vao hang doi.")
                 except Exception:
@@ -583,9 +643,14 @@ class FastAdvancedCrawler:
                                     import urllib.parse
                                     actual = urllib.parse.unquote(m.group(1))
                                     dom = urlparse(actual).netloc.lower().split(":")[0]
-                                    if dom and not self.is_whitelisted(dom) and dom not in self.seen_domains:
+                                    if dom and not self.is_whitelisted(dom) and dom not in self.checked_domains:
                                         if fast_tcp_probe(dom, timeout=0.8):
                                             self.url_queue.put_nowait(actual)
+                                        else:
+                                            with self.lock:
+                                                self.checked_domains.add(dom)
+                                                self.dead_count += 1
+                                                self.total_checked += 1
                 except Exception:
                     pass
                 time.sleep(8.0)
@@ -593,7 +658,7 @@ class FastAdvancedCrawler:
                 time.sleep(5.0)
 
     def worker_thread(self, bot_id):
-        """Luong bot xu ly sieu toc voi TCP pre-check"""
+        """Luong bot xu ly sieu toc voi TCP pre-check va cap nhat tong domain da xu ly"""
         while not self.stop_event.is_set():
             try:
                 target_url = self.url_queue.get(timeout=1.5)
@@ -603,24 +668,39 @@ class FastAdvancedCrawler:
             try:
                 parsed = urlparse(target_url)
                 domain = parsed.netloc.lower().split(":")[0]
-                if not domain or self.is_whitelisted(domain) or domain in self.seen_domains:
+                if not domain or self.is_whitelisted(domain):
                     continue
 
-                # Kiem tra nhanh TCP Probe (0.8s) de loai bo server chet/treo
+                with self.lock:
+                    if domain in self.checked_domains:
+                        continue
+                    # Ghi nhan ngay vao tap hop domain da kiem tra
+                    self.checked_domains.add(domain)
+
+                # 1. Kiem tra nhanh TCP Probe (0.8s)
                 if not fast_tcp_probe(domain, timeout=0.8):
+                    with self.lock:
+                        self.dead_count += 1
+                        self.total_checked += 1
                     continue
 
                 r = self.request_get(target_url, timeout=3.5)
                 if not r or len(r.text) < 150:
+                    with self.lock:
+                        self.dead_count += 1
+                        self.total_checked += 1
                     continue
 
                 total, nd, ch, tm, ht, penalty, reasons, extra_links = self.evaluate_risk_score(target_url, r)
 
+                with self.lock:
+                    self.total_checked += 1
+
                 # 1. 70 - 100 diem: VI PHAM
                 if total >= 70 and not self.is_whitelisted(domain):
                     with self.lock:
-                        if domain not in self.seen_domains:
-                            self.seen_domains.add(domain)
+                        if domain not in self.violation_domains:
+                            self.violation_domains.add(domain)
                             timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
                             score_breakdown = f"VI PHAM ({total}/100) [ND:{nd}, CH:{ch}, TM:{tm}, HT:{ht}, Tru:{penalty}]"
                             reason_str = ", ".join(reasons) if reasons else "Dau hieu tong hop"
@@ -632,8 +712,8 @@ class FastAdvancedCrawler:
                 # 2. 40 - 69 diem: NGHI NGO
                 elif 40 <= total < 70 and not self.is_whitelisted(domain):
                     with self.lock:
-                        if domain not in self.seen_domains:
-                            self.seen_domains.add(domain)
+                        if domain not in self.suspect_domains:
+                            self.suspect_domains.add(domain)
                             timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
                             score_breakdown = f"NGHI NGO ({total}/100) [ND:{nd}, CH:{ch}, TM:{tm}, HT:{ht}, Tru:{penalty}]"
                             reason_str = ", ".join(reasons) if reasons else "Dau hieu nghi ngo"
@@ -642,10 +722,15 @@ class FastAdvancedCrawler:
                             self.atomic_append_file(self.suspect_file, log_entry)
                             self.log(f"[BOT-{bot_id} NGHI NGO] {domain} | {score_breakdown} | {reason_str}")
 
-                # Dao sau link thu hoach (chi lay toi da 3 link da duoc kiem tra song)
+                # 3. Duoi 40 diem: AN TOAN
+                else:
+                    with self.lock:
+                        self.safe_count += 1
+
+                # Dao sau link thu hoach (chi lay link tu trang nghi ngo/vi pham)
                 for link in extra_links:
                     link_dom = urlparse(link).netloc.lower().split(":")[0]
-                    if link_dom and not self.is_whitelisted(link_dom) and link_dom not in self.seen_domains:
+                    if link_dom and not self.is_whitelisted(link_dom) and link_dom not in self.checked_domains:
                         try:
                             self.url_queue.put_nowait(link)
                         except queue.Full:
@@ -656,7 +741,7 @@ class FastAdvancedCrawler:
                 self.url_queue.task_done()
 
     def run(self, max_minutes=None):
-        self.log(f"Khoi dong he thong voi {self.max_workers} bot xu ly sieu toc (Queue toi uu 1500 + TCP Probe 0.8s)...")
+        self.log(f"Khoi dong he thong voi {self.max_workers} bot xu ly sieu toc (Ghi nhan toan dien tong domain da xu ly)...")
         self.fetch_free_proxies()
 
         t_synth = threading.Thread(target=self.synthetic_generator_thread, daemon=True)
@@ -679,7 +764,12 @@ class FastAdvancedCrawler:
             while not self.stop_event.is_set():
                 time.sleep(10)
                 elapsed = time.time() - start_time
-                self.log(f"[Trang thai] Dang chay {self.max_workers} bot song song | Hang doi: {self.url_queue.qsize()}/1500 URL | Tong domain da xu ly: {len(self.seen_domains)}")
+                self.save_checked_history()
+                self.log(
+                    f"[Trang thai] Da kiem tra: {self.total_checked} domain "
+                    f"(VI PHAM: {len(self.violation_domains)}, NGHI NGO: {len(self.suspect_domains)}, An toan: {self.safe_count}, Offline: {self.dead_count}) "
+                    f"| Hang doi: {self.url_queue.qsize()}/1500 URL"
+                )
                 if max_minutes and (elapsed / 60.0) >= max_minutes:
                     self.log(f"Da dat thoi gian gioi han {max_minutes} phut. Dung.")
                     break
@@ -687,10 +777,10 @@ class FastAdvancedCrawler:
             self.log("Nhan tin hieu dung he thong...")
         finally:
             self.stop_event.set()
+            self.save_checked_history()
 
 
 def main():
-    # Kiem tra khoa tien trinh doc quyen truoc khi chay
     success, pid_info = acquire_singleton_lock()
     if not success:
         print(f"[CANH BAO DONG BO] Da co mot tien trinh crawler khac dang chay tren he thong (PID: {pid_info}).")
