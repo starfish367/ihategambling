@@ -359,3 +359,6 @@
 0.0.0.0 x8.club # 2026-11-19 22:35:12 | Diem: 9 | Tu khoa: cá cược, tài xỉu, tài xỉu md5
 0.0.0.0 yo88.win # 2026-11-19 22:35:13 | Diem: 4 | Domain Pattern 'yo88.win' | Tu khoa: tài xỉu
 0.0.0.0 z888vip.com # 2026-11-19 22:33:57 | Diem: 3 | Domain Pattern 'z888vip.com'
+0.0.0.0 macauvip.vip # 2026-11-19 23:15:51 | Diem: 78/100 (ND:25, CH:25, TM:20, HT:8) | Ly do: Pattern thuong hieu/so co bac, TLD rui ro cao, HTTP Redirect sang initoto88site.com, JS Redirect, Body kw (3), Tải bản cài APK/IPA, Cloudflare Proxy, SSL Free/Moi cap
+0.0.0.0 shbet88.app # 2026-11-19 23:16:15 | Diem: 83/100 (ND:40, CH:15, TM:20, HT:8) | Ly do: Pattern thuong hieu/so co bac, TLD rui ro cao, HTTP Redirect sang m.fafa777usd.com, Title/Meta: nhà cái uy tín, Body kw (8), Tải bản cài APK/IPA, Cloudflare Proxy, SSL Free/Moi cap
+0.0.0.0 jun88.site # 2026-11-20 09:46:56 | VI PHAM (76/100) [ND:30, CH:15, TM:20, HT:11, Tru:0] | Ly do: Thuong hieu/so co bac (+12d), TLD rui ro cao (+8d), HTTP Redirect sang m.56piabet.com (+15d), Tu khoa co bac mat do cao (6 lan, +15d), Cum tu giao dich tien that nut/banner (+15d), Free SSL / Cap gan day (39 ngay) (+4d), Widget LiveChat/Telegram ho tro nap rut (+7d)

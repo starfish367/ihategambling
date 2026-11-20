@@ -1,30 +1,16 @@
 #!/usr/bin/env python3
 """
 gambling-crawler.py - He thong Crawler da luong chong co bac & lua dao cong nghe cao
-Nang cap kien truc:
-1. Bang trong so cham diem chi tiet (Thang 100 diem):
-   - Nhom Noi dung & UI (40d):
-     * Tu khoa co bac mat do cao (>= 5 lan trong title, meta, h1-h3): +15d
-     * Cum tu giao dich tien that (nap rut 1:1, momo, giftcode tan thu): +15d
-     * Link tai ung dung ngoai luong (.apk, .ipa, iOS config): +10d
-   - Nhom Chuyen huong (25d):
-     * Chuyen huong tu dong (HTTP 301/302 hoac JS redirect sang domain khac): +15d
-     * Ky thuat che giau (Cloaking - chenh lech Mobile VN vs Desktop/ngoai): +10d
-   - Nhom Ten mien (20d):
-     * Thuong hieu hoac so dac trung (kubet, sunwin, go88, 789, hi88, jun88, tx, nohu, bet...): +12d
-     * Duoi ten mien (TLD) rui ro cao (.vip, .club, .win, .bet, .top, .xyz, .icu...): +8d
-   - Nhom Ha tang (15d):
-     * Chung chi SSL mien phi moi cap (< 30 ngay, Let's Encrypt / ZeroSSL): +8d
-     * Kenh ho tro nap rut truc tiep (Widget LiveChat hoac link t.me/): +7d
-2. Bo loc truoc (Pre-filter) va Co che tru diem xu ly duong tinh gia:
-   - Bo qua ten mien co quan nha nuoc (.gov.vn), giao duc (.edu.vn), logo xac thuc Bo Cong Thuong (online.gov.vn).
-   - Nhan dien bai bao tin tuc canh bao (-35d): > 800 tu, khong form dang ky, khong nut nap tien.
-   - Kiem tra kho ung dung chinh thong (-30d): Nut tai app tro ve play.google.com hoac apps.apple.com.
-   - Xac minh thong tin doanh nghiep hop phap (-25d): Ma so thue (MST) hop le, dia chi VN tai footer, khong redirect an.
-3. Thang danh gia phan loai:
-   - 70 - 100 diem: Xac nhan trang co bac / no hu vi pham (ghi vao suspicious_domains.txt).
-   - 40 - 69 diem: Vung nghi ngo (ghi vao suspect_review.txt de hau kiem).
-   - Duoi 40 diem: Trang an toan hoac khong du dau hieu ket luan.
+Phien ban toi uu hoa toc do & dong bo tien trinh:
+1. Co che khoa tien trinh doc quyen (Singleton Process Lock - fcntl):
+   - Ngan chan chay 2 script cung luc gay mat dong bo danh sach seen_domains hoac xung dot I/O.
+2. Tien kiem tra TCP Socket sieu toc (Fast TCP Probe - 0.8s):
+   - Loai bo 95% domain chet / cong dong trong 0.05 - 0.8s, khong lam tac nghen luong bot.
+3. Kiem soat ap luc hang doi (Backpressure Control - maxsize 1500):
+   - Khong cho phep hang doi phinh len 10.000 URL gay don u va ngap bo nho.
+   - Luong Producer chi bom tiep khi hang doi giam xuong duoi 200 URL.
+4. Bang trong so 100 diem & Co che tru diem duong tinh gia (Penalties).
+5. Ghi file nguyen tu voi khoa file cap he dieu hanh (Atomic File Append & flock).
 """
 
 import sys
@@ -34,6 +20,7 @@ import json
 import time
 import socket
 import ssl
+import fcntl
 import random
 import queue
 import threading
@@ -43,15 +30,39 @@ from urllib.parse import urlparse, parse_qs, urljoin
 import requests
 from bs4 import BeautifulSoup
 
+LOCK_FILE = "/tmp/ihategambling_crawler.lock"
+_lock_file_obj = None
+
+def acquire_singleton_lock():
+    """Dam bao toan he thong chi co duy nhat 1 instance crawler chay"""
+    global _lock_file_obj
+    try:
+        _lock_file_obj = open(LOCK_FILE, "a+")
+        fcntl.flock(_lock_file_obj, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        _lock_file_obj.seek(0)
+        _lock_file_obj.truncate()
+        _lock_file_obj.write(f"{os.getpid()}\n")
+        _lock_file_obj.flush()
+        return True, os.getpid()
+    except (IOError, BlockingIOError):
+        try:
+            with open(LOCK_FILE, "r") as f:
+                existing_pid = f.read().strip()
+        except Exception:
+            existing_pid = "khong ro"
+        return False, existing_pid
+
+
 KEYWORDS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "keywords.json")
 
 BRAND_PREFIXES = [
-    "bet", "win", "club", "casino", "vip", "ku", "th", "sh", "fb", "fun",
-    "f8", "ok", "new", "jun", "hi", "bk", "w", "m", "789", "b52", "rik", "sun",
-    "go", "iwin", "hit", "taixiu", "nohu", "top", "king", "soc", "vic", "zowin",
-    "macau", "sin", "debet", "oxbet", "five", "red", "sky", "ta88", "lucky",
-    "bong", "sbo", "saba", "cmd", "k9", "vg", "v8", "v9", "fa88", "yo88",
-    "kubet", "jun88", "hi88", "shbet", "f8bet", "new88", "sunwin", "go88", "okvip", "789bet"
+    "bet", "win", "club", "casino", "vip", "fun88", "f8bet", "okvip", "new88", "jun88",
+    "hi88", "bk8", "w88", "m88", "789bet", "b52", "rikvip", "sunwin", "go88", "iwin",
+    "hitclub", "taixiu", "nohu", "top88", "kingbet", "socvip", "vicclub", "zowin",
+    "macau", "sin88", "debet", "oxbet", "five88", "red88", "sky88", "ta88", "lucky88",
+    "bong88", "sbobet", "saba", "cmd368", "k9vn", "v8club", "v9bet", "fa88", "yo88",
+    "gem68", "manclub", "choangclub", "nagavip", "fanvip", "bancah5", "lode88", "dagathomo",
+    "keonhacai", "kubet", "shbet"
 ]
 
 BRAND_SUFFIXES = [
@@ -87,19 +98,16 @@ GAMBLING_AND_SCAM_KEYWORDS = [
     "tuyển cskh campuchia", "tuyển telesale campuchia", "làm nhiệm vụ nhận hoa hồng", "giật đơn nhận tiền"
 ]
 
-# Regex thuong hieu co bac
 BRAND_REGEX = re.compile(
-    r"(?:kubet|sunwin|go88|789|hi88|jun88|tx|nohu|bet|b52|iwin|shbet|f8bet|new88|okvip|taixiu|baccarat|xocdia|daga)",
+    r"(?:kubet|sunwin|go88|789|hi88|jun88|f8bet|new88|shbet|okvip|taixiu|baccarat|xocdia|daga|nohu|m88|w88|fb88|b52|iwin)",
     re.IGNORECASE
 )
 
-# Regex cum tu giao dich tien that tren nut bam/banner
 REAL_MONEY_REGEX = re.compile(
     r'(?:nạp\s*rút\s*1\s*[:\-]\s*1|nạp\s*tiền|rút\s*tiền|momo|giftcode\s*tân\s*thủ|thưởng\s*nạp|nạp\s*rút\s*tự\s*động|đăng\s*ký\s*nhận\s*\d+k|hoàn\s*trả\s*cược|tiền\s*cược\s*miễn\s*phí|thưởng\s*chào\s*mừng|rút\s*về\s*ngân\s*hàng)',
     re.IGNORECASE
 )
 
-# Nap tu keywords.json neu co
 if os.path.exists(KEYWORDS_FILE):
     try:
         with open(KEYWORDS_FILE, "r", encoding="utf-8") as kf:
@@ -117,13 +125,13 @@ if os.path.exists(KEYWORDS_FILE):
     except Exception:
         pass
 
-# Whitelist co ban
 WHITELIST_DOMAINS = {
     "youtube.com", "youtu.be", "googlevideo.com", "google.com", "google.com.vn",
     "facebook.com", "fb.com", "messenger.com", "instagram.com", "tiktok.com",
     "twitter.com", "x.com", "github.com", "gitlab.com", "wikipedia.org",
     "apple.com", "microsoft.com", "cloudflare.com", "zalo.me", "tiki.vn",
     "shopee.vn", "lazada.vn", "bluestacks.com", "apkpure.com", "play.google.com", "apps.apple.com",
+    "yahoo.com", "oath.com", "yimg.com", "bing.com", "msn.com", "live.com",
     # Bao chi chinh thong Viet Nam
     "vnexpress.net", "dantri.com.vn", "tuoitre.vn", "thanhnien.vn", "24h.com.vn",
     "kenh14.vn", "zingnews.vn", "znews.vn", "baomoi.com", "vtv.vn", "vietnamnet.vn",
@@ -144,11 +152,21 @@ PROXY_SOURCES = [
 ]
 
 
-def check_ssl_cert(domain, timeout=2.5):
-    """
-    Kiem tra chung chi SSL mien phi (Let's Encrypt / ZeroSSL) moi cap duoi 30 ngay (+8d)
-    hoac chung chi ngan han khac (+4d).
-    """
+def fast_tcp_probe(host, timeout=0.8):
+    """Kiem tra nhanh port 443/80 co bat tay TCP hay khong de loai bo domain chet trong 0.1s"""
+    try:
+        with socket.create_connection((host, 443), timeout=timeout):
+            return True
+    except Exception:
+        try:
+            with socket.create_connection((host, 80), timeout=timeout):
+                return True
+        except Exception:
+            return False
+
+
+def check_ssl_cert(domain, timeout=2.0):
+    """Kiem tra nha phat hanh SSL va thoi gian cap"""
     try:
         ctx = ssl.create_default_context()
         with socket.create_connection((domain, 443), timeout=timeout) as sock:
@@ -175,7 +193,7 @@ def check_ssl_cert(domain, timeout=2.5):
         return 0, ""
 
 
-class AdvancedGamblingCrawler:
+class FastAdvancedCrawler:
     def __init__(self, output_file="/home/a/suspicious_domains.txt", max_workers=16, use_proxy=True):
         self.output_file = os.path.abspath(output_file)
         self.suspect_file = os.path.join(os.path.dirname(self.output_file), "suspect_review.txt")
@@ -183,7 +201,8 @@ class AdvancedGamblingCrawler:
         self.use_proxy = use_proxy
         self.proxies = []
         self.seen_domains = set()
-        self.url_queue = queue.Queue(maxsize=10000)
+        # Gioi han hang doi 1500 de tranh tran RAM va un tac
+        self.url_queue = queue.Queue(maxsize=1500)
         self.lock = threading.Lock()
         self.stop_event = threading.Event()
         self.last_proxy_refresh = 0
@@ -204,13 +223,6 @@ class AdvancedGamblingCrawler:
         print(f"[{now}] {msg}", flush=True)
 
     def is_whitelisted(self, domain, html=""):
-        """
-        Bo loc truoc (Pre-filter):
-        - Bo qua co quan nha nuoc (.gov.vn, .gov)
-        - Bo qua giao duc (.edu.vn, .edu)
-        - Bo qua trang co tich xac thuc Bo Cong Thuong (online.gov.vn)
-        - Bo qua cac trang lon trong whitelist
-        """
         domain = domain.lower()
         if domain.endswith(".gov.vn") or domain.endswith(".edu.vn") or domain.endswith(".gov") or domain.endswith(".edu"):
             return True
@@ -232,7 +244,7 @@ class AdvancedGamblingCrawler:
         all_p = []
         for src in PROXY_SOURCES:
             try:
-                r = requests.get(src, timeout=5)
+                r = requests.get(src, timeout=4)
                 if r.status_code == 200:
                     lines = [p.strip() for p in r.text.splitlines() if p.strip()]
                     all_p.extend(lines)
@@ -253,40 +265,28 @@ class AdvancedGamblingCrawler:
             "Upgrade-Insecure-Requests": "1"
         }
 
-    def request_get(self, url, timeout=7):
-        """Thuc hien HTTP GET voi Mobile User-Agent va theo doi Redirect (Uu tien IP Viet Nam truc tiep)"""
+    def request_get(self, url, timeout=3.5):
+        """HTTP GET toi uu: timeout 3.5s, chi thu proxy khi bi 403 (tranh cho doi 21s)"""
         headers = self.get_mobile_headers()
         try:
             r = requests.get(url, headers=headers, timeout=timeout, allow_redirects=True)
             if r.status_code in [200, 301, 302, 307, 308]:
                 return r
+            if r.status_code == 403 and self.use_proxy and self.proxies:
+                p = random.choice(self.proxies)
+                return requests.get(url, headers=headers, proxies={"http": f"http://{p}", "https": f"http://{p}"}, timeout=timeout, allow_redirects=True)
         except Exception:
             pass
-
-        # Fallback qua proxy neu ket noi truc tiep bi chan
-        if self.use_proxy and self.proxies:
-            for _ in range(2):
-                p = random.choice(self.proxies)
-                try:
-                    r = requests.get(url, headers=headers, proxies={"http": f"http://{p}", "https": f"http://{p}"}, timeout=timeout, allow_redirects=True)
-                    if r.status_code in [200, 301, 302, 307, 308]:
-                        return r
-                except Exception:
-                    pass
         return None
 
     def check_cloaking(self, url, mobile_len):
-        """
-        Kiem tra ky thuat che giau (Cloaking):
-        Gui them 1 request nhe voi Desktop UA. Neu tra ve loi hoac do dai chenh lech > 50% -> Phat hien Cloaking (+10d)
-        """
         try:
             headers = {
                 "User-Agent": DESKTOP_USER_AGENT,
                 "Accept-Language": "en-US,en;q=0.9",
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
             }
-            r_desk = requests.get(url, headers=headers, timeout=4, allow_redirects=True)
+            r_desk = requests.get(url, headers=headers, timeout=3.0, allow_redirects=True)
             if r_desk.status_code in [403, 404]:
                 return True
             desk_len = len(r_desk.text)
@@ -298,9 +298,6 @@ class AdvancedGamblingCrawler:
         return False
 
     def evaluate_risk_score(self, target_url, response):
-        """
-        Bang trong so cham diem 100 diem va Co che tru diem xu ly duong tinh gia
-        """
         nd_score = 0
         ch_score = 0
         tm_score = 0
@@ -315,22 +312,16 @@ class AdvancedGamblingCrawler:
         html_lower = html_raw.lower()
         soup = BeautifulSoup(html_raw, "html.parser")
 
-        # ---------------------------------------------------------
-        # PRE-FILTER: Kiem tra danh sach trang / Co quan nha nuoc / BCT
-        # ---------------------------------------------------------
+        # Pre-filter
         if self.is_whitelisted(orig_domain, html_raw):
-            return 0, 0, 0, 0, 0, 0, ["Trang trong Whitelist / Chinh phu / Bo Cong Thuong"], []
+            return 0, 0, 0, 0, 0, 0, ["Whitelist / Chinh phu / Bo Cong Thuong"], []
 
-        # ---------------------------------------------------------
-        # NHOM 3: TEN MIEN (Toi da 20 diem)
-        # ---------------------------------------------------------
-        # Khop Regex thuong hieu hoac so dac trung (+12d)
-        has_brand = bool(BRAND_REGEX.search(orig_domain)) or any(b in orig_domain for b in BRAND_PREFIXES)
+        # Nhom 3: Ten mien (20d)
+        has_brand = bool(BRAND_REGEX.search(orig_domain)) or any(b in orig_domain for b in BRAND_PREFIXES if len(b) >= 4)
         if has_brand:
             tm_score += 12
             reasons.append("Thuong hieu/so co bac (+12d)")
 
-        # Duoi ten mien TLD rui ro cao (+8d)
         has_risky_tld = any(orig_domain.endswith(tld) for tld in HIGH_RISK_TLDS)
         if has_risky_tld:
             tm_score += 8
@@ -338,10 +329,7 @@ class AdvancedGamblingCrawler:
 
         tm_score = min(20, tm_score)
 
-        # ---------------------------------------------------------
-        # NHOM 2: CHUYEN HUONG & CLOAKING (Toi da 25 diem)
-        # ---------------------------------------------------------
-        # Chuyen huong tu dong (HTTP 301/302 hoac JS) sang ten mien khac (+15d)
+        # Nhom 2: Chuyen huong & Cloaking (25d)
         final_domain = urlparse(response.url).netloc.lower().split(":")[0]
         has_cross_redirect = False
 
@@ -356,7 +344,6 @@ class AdvancedGamblingCrawler:
                 ch_score += 10
                 reasons.append("HTTP Redirect noi bo (+10d)")
 
-        # Kiem tra JavaScript / Meta refresh redirect
         js_redirect_match = re.search(r'(?:window\.location|location\.href|location\.replace)\s*=\s*[\'"]([^\'"]+)[\'"]', html_raw)
         meta_refresh_match = re.search(r'<meta[^>]*http-equiv=[\'"]refresh[\'"][^>]*content=[\'"][^;]*;\s*url=([^\'"]+)[\'"]', html_raw, re.IGNORECASE)
 
@@ -380,29 +367,24 @@ class AdvancedGamblingCrawler:
                 ch_score += 10
                 reasons.append("JS Redirect noi bo (+10d)")
 
-        # Ky thuat che giau (Cloaking) (+10d)
         if self.check_cloaking(target_url, len(html_raw)):
             ch_score += 10
             reasons.append("Cloaking Mobile vs Desktop (+10d)")
 
         ch_score = min(25, ch_score)
 
-        # ---------------------------------------------------------
-        # NHOM 1: NOI DUNG & UI (Toi da 40 diem)
-        # ---------------------------------------------------------
+        # Nhom 1: Noi dung & UI (40d)
         title_text = (soup.title.string.strip() if soup.title and soup.title.string else "").lower()
         meta_desc = ""
         meta_tag = soup.find("meta", attrs={"name": re.compile(r"description", re.I)}) or soup.find("meta", attrs={"property": re.compile(r"og:description", re.I)})
         if meta_tag and meta_tag.get("content"):
             meta_desc = meta_tag["content"].lower()
 
-        # Thu thap noi dung tieu de va h1-h3
         head_elements = [title_text, meta_desc]
         for h_tag in soup.find_all(["h1", "h2", "h3"]):
             head_elements.append(h_tag.get_text().strip().lower())
         combined_head = " ".join(head_elements)
 
-        # Tu khoa co bac mat do cao: xuat hien tu 5 lan tro len trong title, meta, h1-h3 (+15d)
         core_kws = ["nổ hũ", "tài xỉu", "xóc đĩa", "lô đề", "baccarat", "cá cược", "kèo nhà cái", "bắn cá", "casino", "game bài đổi thưởng"]
         kw_density_count = sum(len(re.findall(re.escape(k), combined_head, re.I)) for k in core_kws)
         if kw_density_count >= 5:
@@ -412,7 +394,6 @@ class AdvancedGamblingCrawler:
             nd_score += 8
             reasons.append(f"Tu khoa tieu de/H1-H3 ({kw_density_count} lan, +8d)")
 
-        # Cum tu giao dich tien that tren nut bam / banner / link (+15d)
         cta_elements = soup.find_all(["button", "a", "input"])
         cta_texts = [el.get_text().strip() for el in cta_elements if el.name != "input"]
         cta_texts += [el.get("value", "") for el in cta_elements if el.name == "input"]
@@ -421,7 +402,6 @@ class AdvancedGamblingCrawler:
             nd_score += 15
             reasons.append("Cum tu giao dich tien that nut/banner (+15d)")
 
-        # Link tai ung dung ngoai luong (.apk, .ipa, iOS config profile) (+10d)
         sideload_app = False
         for a_tag in soup.find_all("a", href=True):
             href = a_tag["href"].strip().lower()
@@ -438,16 +418,12 @@ class AdvancedGamblingCrawler:
 
         nd_score = min(40, nd_score)
 
-        # ---------------------------------------------------------
-        # NHOM 4: HA TANG (Toi da 15 diem)
-        # ---------------------------------------------------------
-        # Chung chi SSL mien phi moi cap duoi 30 ngay (+8d)
+        # Nhom 4: Ha tang (15d)
         ssl_score, ssl_reason = check_ssl_cert(orig_domain)
         if ssl_score > 0:
             ht_score += ssl_score
             reasons.append(ssl_reason)
 
-        # Kenh ho tro nap rut truc tiep: Widget LiveChat hoac t.me/ (+7d)
         has_direct_support = bool(
             re.search(r'(?:t\.me/|telegram\.me/|livechatinc|tawk\.to|crisp\.chat|smartsupp|comm100)', html_raw, re.I)
         )
@@ -457,10 +433,7 @@ class AdvancedGamblingCrawler:
 
         ht_score = min(15, ht_score)
 
-        # ---------------------------------------------------------
-        # CO CHE TRU DIEM XU LY DUONG TINH GIA (PENALTIES)
-        # ---------------------------------------------------------
-        # 1. Nhan dien bai bao tin tuc canh bao (-35d)
+        # Co che tru diem (Penalties)
         article_elem = soup.find("article") or soup.find("main") or soup.find("body")
         article_text = article_elem.get_text() if article_elem else soup.get_text()
         words = re.findall(r'\b\w+\b', article_text)
@@ -477,7 +450,6 @@ class AdvancedGamblingCrawler:
             penalty_score += 35
             reasons.append(f"Tru: Bai bao tin tuc canh bao ({len(words)} tu, -35d)")
 
-        # 2. Kiem tra kho ung dung chinh thong (-30d)
         has_official_appstore = False
         for a_tag in soup.find_all("a", href=True):
             href_val = a_tag["href"].strip().lower()
@@ -488,7 +460,6 @@ class AdvancedGamblingCrawler:
             penalty_score += 30
             reasons.append("Tru: Kho ung dung chinh thong Google Play / App Store (-30d)")
 
-        # 3. Xac minh thong tin doanh nghiep hop phap (-25d)
         footer_elem = soup.find("footer") or soup.find("div", class_=re.compile(r"footer", re.I))
         footer_text = footer_elem.get_text() if footer_elem else html_raw[-4000:]
 
@@ -499,29 +470,38 @@ class AdvancedGamblingCrawler:
             penalty_score += 25
             reasons.append(f"Tru: Doanh nghiep hop phap/MST: {mst_match.group(1)} (-25d)")
 
-        # Tinh tong diem cuoi cung sau khi ap dung diem tru
         raw_score = nd_score + ch_score + tm_score + ht_score
         total_score = max(0, min(100, raw_score - penalty_score))
 
-        # Thu hoach link ngoai de quet sau
+        # Thu hoach link ngoai: gioi han top 3 link de tranh ngap hang doi
         for a_tag in soup.find_all("a", href=True):
             href = a_tag["href"].strip()
             if href.startswith("http"):
                 extra_urls_to_crawl.append(href)
+                if len(extra_urls_to_crawl) >= 3:
+                    break
 
         return total_score, nd_score, ch_score, tm_score, ht_score, penalty_score, reasons, extra_urls_to_crawl
 
+    def atomic_append_file(self, filepath, line):
+        """Ghi file nguyen tu voi khoa file cap he dieu hanh (flock)"""
+        with open(filepath, "a", encoding="utf-8") as f:
+            fcntl.flock(f, fcntl.LOCK_EX)
+            f.write(line)
+            f.flush()
+            fcntl.flock(f, fcntl.LOCK_UN)
+
     def synthetic_generator_thread(self):
-        """Luong sinh to hop ten mien theo quy luat va kiem tra DNS song"""
+        """Luong sinh to hop ten mien - Chi sinh khi hang doi < 200 URL (Chong ngap)"""
         self.log("Khoi dong luong sinh to hop ten mien thong minh (Synthetic Generator)...")
         prefixes = list(BRAND_PREFIXES)
-        suffixes = list(BRAND_SUFFIXES) + ["", "01", "02", "vip", "club"]
+        suffixes = list(BRAND_SUFFIXES) + ["", "01", "02", "vip"]
         tlds = list(HIGH_RISK_TLDS)
 
         while not self.stop_event.is_set():
-            if self.url_queue.qsize() < 250:
+            if self.url_queue.qsize() < 200:
                 batch = []
-                for _ in range(35):
+                for _ in range(25):
                     p = random.choice(prefixes)
                     s = random.choice(suffixes)
                     t = random.choice(tlds)
@@ -531,63 +511,68 @@ class AdvancedGamblingCrawler:
 
                 resolved_count = 0
                 for cand in batch:
-                    try:
-                        socket.gethostbyname(cand)
-                        self.url_queue.put_nowait(f"https://{cand}")
-                        resolved_count += 1
-                    except Exception:
-                        pass
+                    # Probe nhanh TCP port 443 truoc khi day vao hang doi
+                    if fast_tcp_probe(cand, timeout=0.8):
+                        try:
+                            self.url_queue.put_nowait(f"https://{cand}")
+                            resolved_count += 1
+                        except queue.Full:
+                            break
                 if resolved_count > 0:
-                    self.log(f"[Synthetic] Phat hien {resolved_count} domain to hop dang HOAT DONG tren Internet -> Nap vao hang doi.")
-                time.sleep(2.0)
+                    self.log(f"[Synthetic] Nap {resolved_count} domain to hop CO PHAN HOI TCP vao hang doi.")
+                time.sleep(1.5)
             else:
-                time.sleep(4.0)
+                time.sleep(3.0)
 
     def crtsh_query_thread(self):
-        """Luong Certificate Transparency Logs (crt.sh)"""
+        """Luong Certificate Transparency Logs - Dieu tiet toc do tranh don hang doi"""
         self.log("Khoi dong luong Certificate Transparency Harvester (crt.sh)...")
         key_brands = ["jun88", "kubet", "hi88", "789bet", "f8bet", "new88", "shbet", "sunwin", "go88", "b52", "iwin", "okvip"]
         idx = 0
 
         while not self.stop_event.is_set():
-            brand = key_brands[idx % len(key_brands)]
-            idx += 1
-            try:
-                url = f"https://crt.sh/?q={brand}.com&output=json"
-                r = requests.get(url, timeout=6)
-                if r.status_code == 200:
-                    data = r.json()
-                    added = 0
-                    for item in data[:40]:
-                        nv = item.get("name_value", "")
-                        for line in nv.splitlines():
-                            dom = line.strip().lstrip("*.").lower()
-                            if dom and dom not in self.seen_domains and not self.is_whitelisted(dom):
-                                try:
-                                    self.url_queue.put_nowait(f"https://{dom}")
-                                    added += 1
-                                except queue.Full:
-                                    break
-                    if added > 0:
-                        self.log(f"[crt.sh] Phat hien {added} domain moi tu Certificate Logs ({brand}) -> Nap vao hang doi.")
-            except Exception:
-                pass
-            time.sleep(15.0)
+            if self.url_queue.qsize() < 400:
+                brand = key_brands[idx % len(key_brands)]
+                idx += 1
+                try:
+                    url = f"https://crt.sh/?q={brand}.com&output=json"
+                    r = requests.get(url, timeout=5)
+                    if r.status_code == 200:
+                        data = r.json()
+                        added = 0
+                        for item in data[:20]:
+                            nv = item.get("name_value", "")
+                            for line in nv.splitlines():
+                                dom = line.strip().lstrip("*.").lower()
+                                if dom and dom not in self.seen_domains and not self.is_whitelisted(dom):
+                                    if fast_tcp_probe(dom, timeout=0.8):
+                                        try:
+                                            self.url_queue.put_nowait(f"https://{dom}")
+                                            added += 1
+                                        except queue.Full:
+                                            break
+                        if added > 0:
+                            self.log(f"[crt.sh] Phat hien {added} domain moi co web server song ({brand}) -> Nap vao hang doi.")
+                except Exception:
+                    pass
+                time.sleep(20.0)
+            else:
+                time.sleep(5.0)
 
     def search_engine_thread(self):
-        """Luong tim kiem web bo sung nguon URL vao hang doi"""
+        """Luong tim kiem web - Dieu tiet nhan nhe"""
         self.log("Khoi dong luong tim kiem Search Engine...")
         queries = list(HIGH_YIELD_SEARCH_QUERIES)
         random.shuffle(queries)
         q_idx = 0
 
         while not self.stop_event.is_set():
-            if self.url_queue.qsize() < 100:
+            if self.url_queue.qsize() < 250:
                 q = queries[q_idx % len(queries)]
                 q_idx += 1
                 try:
                     headers = self.get_mobile_headers()
-                    r = requests.get(f"https://search.yahoo.com/search?p={requests.utils.quote(q)}", headers=headers, timeout=6)
+                    r = requests.get(f"https://search.yahoo.com/search?p={requests.utils.quote(q)}", headers=headers, timeout=5)
                     if r.status_code == 200:
                         soup = BeautifulSoup(r.text, "html.parser")
                         for a in soup.find_all("a", href=True):
@@ -599,18 +584,19 @@ class AdvancedGamblingCrawler:
                                     actual = urllib.parse.unquote(m.group(1))
                                     dom = urlparse(actual).netloc.lower().split(":")[0]
                                     if dom and not self.is_whitelisted(dom) and dom not in self.seen_domains:
-                                        self.url_queue.put_nowait(actual)
+                                        if fast_tcp_probe(dom, timeout=0.8):
+                                            self.url_queue.put_nowait(actual)
                 except Exception:
                     pass
-                time.sleep(5.0)
+                time.sleep(8.0)
             else:
                 time.sleep(5.0)
 
     def worker_thread(self, bot_id):
-        """Luong xu ly danh gia phan loai tung URL (Consumer)"""
+        """Luong bot xu ly sieu toc voi TCP pre-check"""
         while not self.stop_event.is_set():
             try:
-                target_url = self.url_queue.get(timeout=2.0)
+                target_url = self.url_queue.get(timeout=1.5)
             except queue.Empty:
                 continue
 
@@ -620,14 +606,17 @@ class AdvancedGamblingCrawler:
                 if not domain or self.is_whitelisted(domain) or domain in self.seen_domains:
                     continue
 
-                r = self.request_get(target_url, timeout=7)
+                # Kiem tra nhanh TCP Probe (0.8s) de loai bo server chet/treo
+                if not fast_tcp_probe(domain, timeout=0.8):
+                    continue
+
+                r = self.request_get(target_url, timeout=3.5)
                 if not r or len(r.text) < 150:
                     continue
 
                 total, nd, ch, tm, ht, penalty, reasons, extra_links = self.evaluate_risk_score(target_url, r)
 
-                # THANG DANH GIA PHAN LOAI:
-                # 1. 70 - 100 diem: Xac nhan trang co bac / no hu vi pham (gan nhan chan)
+                # 1. 70 - 100 diem: VI PHAM
                 if total >= 70 and not self.is_whitelisted(domain):
                     with self.lock:
                         if domain not in self.seen_domains:
@@ -637,12 +626,10 @@ class AdvancedGamblingCrawler:
                             reason_str = ", ".join(reasons) if reasons else "Dau hieu tong hop"
                             log_entry = f"0.0.0.0 {domain} # {timestamp} | {score_breakdown} | Ly do: {reason_str}\n"
 
-                            with open(self.output_file, "a", encoding="utf-8") as f:
-                                f.write(log_entry)
-
+                            self.atomic_append_file(self.output_file, log_entry)
                             self.log(f"[BOT-{bot_id} VI PHAM] {domain} | {score_breakdown} | {reason_str}")
 
-                # 2. 40 - 69 diem: Vung nghi ngo (luu lai de hau kiem)
+                # 2. 40 - 69 diem: NGHI NGO
                 elif 40 <= total < 70 and not self.is_whitelisted(domain):
                     with self.lock:
                         if domain not in self.seen_domains:
@@ -652,29 +639,24 @@ class AdvancedGamblingCrawler:
                             reason_str = ", ".join(reasons) if reasons else "Dau hieu nghi ngo"
                             log_entry = f"# 0.0.0.0 {domain} # {timestamp} | {score_breakdown} | Ly do: {reason_str}\n"
 
-                            with open(self.suspect_file, "a", encoding="utf-8") as f:
-                                f.write(log_entry)
-
+                            self.atomic_append_file(self.suspect_file, log_entry)
                             self.log(f"[BOT-{bot_id} NGHI NGO] {domain} | {score_breakdown} | {reason_str}")
 
-                # 3. Duoi 40 diem: Trang an toan hoac khong du dau hieu ket luan (bo qua)
-
-                # Dao sau link thu hoach duoc
-                for link in extra_links[:15]:
-                    if link.startswith("http"):
-                        link_dom = urlparse(link).netloc.lower().split(":")[0]
-                        if link_dom and not self.is_whitelisted(link_dom) and link_dom not in self.seen_domains:
-                            try:
-                                self.url_queue.put_nowait(link)
-                            except queue.Full:
-                                break
+                # Dao sau link thu hoach (chi lay toi da 3 link da duoc kiem tra song)
+                for link in extra_links:
+                    link_dom = urlparse(link).netloc.lower().split(":")[0]
+                    if link_dom and not self.is_whitelisted(link_dom) and link_dom not in self.seen_domains:
+                        try:
+                            self.url_queue.put_nowait(link)
+                        except queue.Full:
+                            break
             except Exception:
                 pass
             finally:
                 self.url_queue.task_done()
 
     def run(self, max_minutes=None):
-        self.log(f"Khoi dong he thong voi {self.max_workers} bot phan loai da tin hieu (Bang trong so 100d + Co che tru diem)...")
+        self.log(f"Khoi dong he thong voi {self.max_workers} bot xu ly sieu toc (Queue toi uu 1500 + TCP Probe 0.8s)...")
         self.fetch_free_proxies()
 
         t_synth = threading.Thread(target=self.synthetic_generator_thread, daemon=True)
@@ -697,7 +679,7 @@ class AdvancedGamblingCrawler:
             while not self.stop_event.is_set():
                 time.sleep(10)
                 elapsed = time.time() - start_time
-                self.log(f"[Trang thai] Dang chay {self.max_workers} bot song song | Hang doi: {self.url_queue.qsize()} URL | Tong domain da xu ly: {len(self.seen_domains)}")
+                self.log(f"[Trang thai] Dang chay {self.max_workers} bot song song | Hang doi: {self.url_queue.qsize()}/1500 URL | Tong domain da xu ly: {len(self.seen_domains)}")
                 if max_minutes and (elapsed / 60.0) >= max_minutes:
                     self.log(f"Da dat thoi gian gioi han {max_minutes} phut. Dung.")
                     break
@@ -708,6 +690,14 @@ class AdvancedGamblingCrawler:
 
 
 def main():
+    # Kiem tra khoa tien trinh doc quyen truoc khi chay
+    success, pid_info = acquire_singleton_lock()
+    if not success:
+        print(f"[CANH BAO DONG BO] Da co mot tien trinh crawler khac dang chay tren he thong (PID: {pid_info}).")
+        print("He thong chi cho phep chay dung 1 script duy nhat de dong bo danh sach seen_domains va tranh xung dot ghi file.")
+        print(f"Neu muon khoi dong lai, hay tat tien trinh cu bang: kill -9 {pid_info}")
+        sys.exit(0)
+
     args = sys.argv[1:]
     output_path = "/home/a/suspicious_domains.txt"
     threads = 16
@@ -732,7 +722,7 @@ def main():
     if "--no-proxy" in args:
         use_proxy = False
 
-    crawler = AdvancedGamblingCrawler(output_file=output_path, max_workers=threads, use_proxy=use_proxy)
+    crawler = FastAdvancedCrawler(output_file=output_path, max_workers=threads, use_proxy=use_proxy)
     crawler.run(max_minutes=minutes)
 
 

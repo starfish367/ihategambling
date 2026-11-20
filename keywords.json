@@ -1,13 +1,12 @@
 {
   "brand_prefixes": [
-    "bet", "win", "club", "casino", "vip", "ku", "th", "sh", "fb", "fun",
-    "f8", "ok", "new", "jun", "hi", "bk", "w", "m", "789", "b52", "rik", "sun",
-    "go", "iwin", "hit", "taixiu", "nohu", "top", "king", "soc", "vic", "zowin",
-    "macau", "sin", "debet", "oxbet", "five", "red", "sky", "ta88", "lucky",
-    "bong", "sbo", "saba", "cmd", "k9", "vg", "v8", "v9", "fa88", "yo88",
-    "gem", "may", "bay", "boc", "manclub", "choang", "rio", "nagavip", "fanvip",
-    "bom", "nhat", "loc", "phat", "tuan", "banca", "lode", "daga", "keo", "kubet",
-    "jun88", "hi88", "shbet", "f8bet", "new88", "sunwin", "go88", "okvip", "789bet"
+    "bet", "win", "club", "casino", "vip", "fun88", "f8bet", "okvip", "new88", "jun88",
+    "hi88", "bk8", "w88", "m88", "789bet", "b52", "rikvip", "sunwin", "go88", "iwin",
+    "hitclub", "taixiu", "nohu", "top88", "kingbet", "socvip", "vicclub", "zowin",
+    "macau", "sin88", "debet", "oxbet", "five88", "red88", "sky88", "ta88", "lucky88",
+    "bong88", "sbobet", "saba", "cmd368", "k9vn", "v8club", "v9bet", "fa88", "yo88",
+    "gem68", "manclub", "choangclub", "nagavip", "fanvip", "bancah5", "lode88", "dagathomo",
+    "keonhacai", "kubet", "shbet"
   ],
   "brand_suffixes": [
     "88", "77", "99", "68", "79", "388", "888", "999", "789", "52", "188",
@@ -27,19 +26,13 @@
     "kèo nhà cái hôm nay trực tiếp",
     "tỷ lệ kèo bóng đá trực tuyến hôm nay",
     "soi kèo ngoại hạng anh đêm nay",
-    "kèo chấp châu á running phạt góc",
     "baccarat trực tuyến uy tín",
     "kéo baccarat về bờ uy tín",
     "nhóm hô baccarat tele",
     "live casino người thật chia bài",
-    "sòng bạc trực tuyến tặng tiền",
     "đá gà thomo trực tiếp hôm nay c1",
-    "đá gà cpc3 cpc4 trực tiếp bình luận",
-    "trực tiếp đá gà cựa dao thomo",
+    "đá gà cpc3 cpc4 trực tiếp",
     "lô đề online 1 ăn 99.5 uy tín",
-    "đánh số đề miền bắc siêu tốc",
-    "soi cầu 3 miền vip hôm nay",
-    "xổ số siêu tốc 1 phút 45 giây",
     "nhà cái tặng tiền trải nghiệm tân thủ",
     "link vào không bị chặn mới nhất 2026",
     "nổ hũ jackpot đổi tiền mặt",
@@ -52,12 +45,9 @@
     "tuyển telesale campuchia lương 30 triệu",
     "tuyển dụng casino sihanoukville",
     "việc làm casino chrey thum kandal",
-    "việc làm văn phòng campuchia không cần kinh nghiệm",
     "làm nhiệm vụ telegram nhận hoa hồng",
     "app giật đơn kiếm tiền nạp tiền shopee",
-    "đầu tư tài chính sinh lời mỗi ngày cam kết 30%",
-    "tuyển cộng tác viên làm nhiệm vụ tiki shopee",
-    "sàn chứng khoán quốc tế rút tiền ngay"
+    "đầu tư tài chính sinh lời mỗi ngày cam kết 30%"
   ],
   "indicators": [
     "cá cược", "cá độ", "kèo nhà cái", "tài xỉu", "tài xỉu md5", "baccarat", "casino trực tuyến",
